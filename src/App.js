@@ -1,11 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
 import {ApiTest} from "./ApiTest"
+import {Searchbar} from "./Searchbar"
+import {HandleSearch} from './handleSearch.js'
+
 
 function App() {
   return (
     <div className="App">
-      <ApiTest />
+      <Searchbar />
+      <HandleSearch prompt = {} />
     </div>
   );
 }

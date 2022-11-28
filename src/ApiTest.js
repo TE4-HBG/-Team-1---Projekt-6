@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getCount, get } from "./API";
+import { getCount, get } from "./RequestAPI";
 
 export function ApiTest() {
     const [nobelPrizes, setNobelPrizes] = useState(null);

@@ -1,25 +1,39 @@
-import { getCount, get } from "./API";
 import React, { useState, useEffect } from "react";
 
 export function HandleSearch(props) {
-    const [nobelPrizes, setNobelPrizes] = useState(null);
-    const [count, setCount] = useState(null);
-    useEffect(() => {
-        getCount(setCount);
-    }, [])
-    useEffect(() => {
-        if (count !== null) {
-           get(0, count, setNobelPrizes);
+
+    return <p>{props.laureates === null ? "loading" : props.laureates}</p>
+}
+
+export function ReturnObjectIdOfLettersPrompt(nobelPrizes, prompt) {
+    let idArray = [];
+    for (let i = 0; i < nobelPrizes.length; i++) {
+        try {
+            for (let j = 0; j < nobelPrizes[i].laureates.length; j++) {     
+            try {
+                if (prompt === nobelPrizes[i].laureates[j].fullName.en || prompt === nobelPrizes[i].laureates[j].knownName.en) {
+                    
+                    idArray.push(i)
+                    break
+                }
+            }
+            catch {
+             if (prompt === nobelPrizes[i].laureates[j].orgName.en) {
+                 idArray.push(i)
+             }
+            }
+ 
+         }
         }
-    }, [count]);
-//Continue working here on monday
-let queriedPrizes;
-    if (props.prompt && props.prompt.length > 0) {
-        console.log(nobelPrizes)
-//handle search is an asshole fr fr 
-        queriedPrizes += nobelPrizes.filter((nobelPrize) => {
-        return nobelPrize.knownName.en/*<== JSON path*/.match(props.prompt);
-        });
+        catch {
+        }
+       
+        /*for (let j = 0; j < array.length; j++) {
+            const element = array[j];
+            
+        } */
     }
-    return <p>{queriedPrizes === null ? "loading" : JSON.stringify(nobelPrizes)}</p>
+
+    console.log("finished :DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+    return idArray;
 }

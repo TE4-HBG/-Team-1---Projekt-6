@@ -4,9 +4,6 @@ import React, { useState, useEffect } from "react";
 export function HandleSearch(props) {
     const [nobelPrizes, setNobelPrizes] = useState(null);
     const [count, setCount] = useState(null);
-    const [prompt, setPrompt] = useState(null);
-    setPrompt(props.prompt)
-    console.log(props.prompt);
     useEffect(() => {
         getCount(setCount);
     }, [])
@@ -16,10 +13,13 @@ export function HandleSearch(props) {
         }
     }, [count]);
 //Continue working here on monday
-    if (prompt.length > 0) {
-        nobelPrizes.filter((noblePrize) => {
-        return noblePrize.fullName.match(prompt);
-    });
+let queriedPrizes;
+    if (props.prompt && props.prompt.length > 0) {
+        console.log(nobelPrizes)
+//handle search is an asshole fr fr 
+        queriedPrizes += nobelPrizes.filter((nobelPrize) => {
+        return nobelPrize.knownName.en/*<== JSON path*/.match(props.prompt);
+        });
     }
-    return <p>{nobelPrizes === null ? "loading" : JSON.stringify(nobelPrizes)}</p>
+    return <p>{queriedPrizes === null ? "loading" : JSON.stringify(nobelPrizes)}</p>
 }

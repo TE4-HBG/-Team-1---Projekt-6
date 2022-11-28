@@ -1,7 +1,13 @@
 import React, {useState} from 'react';
 
-export function Searchbar() {
-    const [prompt, setPrompt] = useState();
+export function Searchbar(props) {
+    const [prompt, setPrompt] = useState("");
     
-    return <input type="text"  placeholder="Search..." onChange={function(e) {e.preventDefault();setPrompt(e.target.value)}} value={prompt}/> 
+    return (
+        <form onSubmit={function(e) {e.preventDefault();props.updatePrompt(prompt)}}>
+            <input type="text"  placeholder="Search..." onChange={function(e) {e.preventDefault();setPrompt(e.target.value)}} value={prompt}/>
+            <input type="submit"/>
+
+        </form>
+    )
 }

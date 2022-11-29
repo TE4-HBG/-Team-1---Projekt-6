@@ -1,11 +1,22 @@
 import logo from './logo.svg';
 import './App.css';
-import {ApiTest} from "./ApiTest"
+import { ApiTest } from "./ApiTest"
+import Timer from "./Timer"
+/*
 
+      <div className="App">
+        <ApiTest />
+
+      </div>
+       */
 function App() {
   return (
-    <div className="App">
-      <ApiTest />
+    <div>
+      
+      
+      <div className="testTimer">
+        <Timer />
+      </div>
     </div>
   );
 }

@@ -14,5 +14,6 @@ export function ApiTest() {
         }
     }, [count]);
     console.log(nobelPrizes);
+    
     return <p>{nobelPrizes === null ? "loading" : JSON.stringify(nobelPrizes)}</p>
 } 

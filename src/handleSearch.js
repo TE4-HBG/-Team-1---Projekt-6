@@ -7,25 +7,26 @@ export function HandleSearch(props) {
 
 export function ReturnObjectIdOfLettersPrompt(nobelPrizes, prompt) {
     let idArray = [];
+    console.log(nobelPrizes);
     for (let i = 0; i < nobelPrizes.length; i++) {
         try {
             for (let j = 0; j < nobelPrizes[i].laureates.length; j++) {     
-            try {
-                if (prompt === nobelPrizes[i].laureates[j].fullName.en || prompt === nobelPrizes[i].laureates[j].knownName.en) {
-                    
-                    idArray.push(i)
-                    break
+                try {
+                    if (nobelPrizes[i].laureates[j].fullName.en.toLowerCase().includes(prompt.toLowerCase()) || nobelPrizes[i].laureates[j].knownName.en.toLowerCase().includes(prompt.toLowerCase())) {
+
+                        idArray.push(i)
+                        break;
+                    }
+                }
+                catch {
+                    if (nobelPrizes[i].laureates[j].orgName.en.toLowerCase().includes(prompt.toLowerCase())) {
+                        idArray.push(i)
+                    }
                 }
             }
-            catch {
-             if (prompt === nobelPrizes[i].laureates[j].orgName.en) {
-                 idArray.push(i)
-             }
-            }
- 
-         }
         }
         catch {
+            console.log("caught")
         }
        
         /*for (let j = 0; j < array.length; j++) {

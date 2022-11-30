@@ -3,7 +3,7 @@ import Laureate from "./Laureate";
 
 
 export default function NobelPrize(props) {
-    return (<div>
+    return (<div className ="random">
         <div> Award Year: {props.data.awardYear}</div>
         <div> Category: {props.data.category.en}</div>
         

@@ -8,6 +8,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import Timer from "./Timer"
 
 function App() {
   const [prompt, setPrompt] = useState("")
@@ -40,9 +41,13 @@ function App() {
 
   return (
     <div className="App">
+      
       <NavbarDarkExample />
       <Searchbar updatePrompt = {setPrompt} />
       <HandleSearch prompt = {prompt} lauretaes = {queriedPrizes} />
+      <div className="testTimer">
+        <Timer />
+      </div>
     </div>
   );
 }

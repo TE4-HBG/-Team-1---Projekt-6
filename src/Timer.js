@@ -8,6 +8,10 @@ const Timer = () => {
     const [count, setCount] = useState(null);
     const [nobelPrize, setNobelPrize] = useState(null);
     useEffect(() => {
+        getCount(setCount);
+        if (count) {
+            setNum(randomNumberInRange(0, count));
+        }
         const timer = setInterval(() => {
             getCount(setCount);
             if (count) {
@@ -21,11 +25,14 @@ const Timer = () => {
 
 
     useEffect(() => {
-        get(num, 1, (arr) => (setNobelPrize(arr[0])));
+        if (num != null) {
+            get(num, 1, (arr) => (setNobelPrize(arr[0])));
+        }
+
     }, [num])
     console.log()
-    return nobelPrize === null ? 
-        <div>"Loading..."</div> : 
+    return nobelPrize === null ?
+        <div>Loading...</div> :
         <NobelPrize data={nobelPrize} />
 }
 

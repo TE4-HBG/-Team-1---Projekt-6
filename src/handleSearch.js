@@ -35,6 +35,10 @@ export function ReturnObjectIdOfLettersPrompt(nobelPrizes, prompt) {
         } */
     }
 
+    for(let i =0; i<idArray.length; i++){
+        
+    }
+
     console.log("finished :DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
     return idArray;
 }

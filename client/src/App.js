@@ -3,10 +3,11 @@ import { Route, Routes } from "react-router-dom";
 import { getCount, get } from "./RequestAPI";
 
 
-import { Searchbar } from "./Searchbar"
-import { HandleSearch, ReturnObjectIdOfLettersPrompt } from './handleSearch.js'
+import { Searchbar } from "./components/Searchbar"
+import { HandleSearch, ReturnObjectIdOfLettersPrompt } from './components/handleSearch.js'
 import { useEffect, useState } from 'react';
 import Timer from "./Timer"
+import NavbarDarkExample from './components/NavbarDarkExample';
 
 
 function App() {
@@ -48,34 +49,6 @@ function App() {
         <Timer />
       </div>
     </div>
-  );
-}
-
-export function NavbarDarkExample() {
-  return (
-    <Navbar variant="dark" bg="dark" expand="lg">
-      <Container fluid>
-        <Navbar.Brand href="#home">NOBELFINDER</Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbar-dark-example" />
-        <Navbar.Collapse id="navbar-dark-example">
-          <Nav>
-            <NavDropdown
-              id="nav-dropdown-dark-example"
-              title="FILTER"
-              menuVariant="dark"
-            >
-              <NavDropdown.Item href="#action/3.1">YEAR</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">CATEGORY</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">MOST POPULAR</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                TEAM 1 PRODUCTION
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
   );
 }
 

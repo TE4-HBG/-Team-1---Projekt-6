@@ -26,7 +26,7 @@ recordRoutes.route("/prizes").get(async function (req, res) {
 recordRoutes.route("/prizese/:id").get(async function (req, res) {
   const db_connect = getDb("NobelPrizes");
   console.log(req.params);
-  const myquery = { _id: ObjectId(req.params.id) };
+  const myquery = { "_id": ObjectId(req.params.id) };
   const document = db_connect
     .collection("Prizes")
     .findOne(myquery);

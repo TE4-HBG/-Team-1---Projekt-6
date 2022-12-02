@@ -23,7 +23,7 @@ recordRoutes.route("/prizes").get(async function (req, res) {
 });
 
 // This section will help you get a single record by id
-recordRoutes.route("/prizes/:id").get(async function (req, res) {
+recordRoutes.route("/prizese/:id").get(async function (req, res) {
   const db_connect = getDb("NobelPrizes");
   const myquery = { _id: ObjectId(req.params.id) };
   const document = db_connect

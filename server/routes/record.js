@@ -12,24 +12,20 @@ import { getDb } from "../db/conn.js";
 import { ObjectId } from "mongodb";
 
 
-// This section will help you get a list of all the records.
-recordRoutes.route("/prizes").get(async function (req, res) {
+// get the records
+recordRoutes.route("/prizes/").get(async function (req, res) {
   const db_connect = getDb("NobelPrizes");
-  const swag = await db_connect
-    .collection("Prizes")
-    .find({})
-    .toArray();
-  res.json(swag);
-});
+  let query
+  for (const [key, value] of req.query.entries()) {
+    
+  }
 
-// This section will help you get a single record by id
-recordRoutes.route("/prizese/:id").get(async function (req, res) {
-  const db_connect = getDb("NobelPrizes");
-  console.log(req.params);
-  const myquery = { "_id": ObjectId(req.params.id) };
-  const document = db_connect
+  //const query = req.query.id && ObjectId.isValid(req.query.id) ? { "_id": ObjectId(req.query.id) } : {}
+  
+
+  const document = await db_connect
     .collection("Prizes")
-    .findOne(myquery);
+    .find(query).toArray();
   res.json(document);
 });
 

@@ -1,17 +1,26 @@
 import React, { useState, useEffect } from "react";
 import Laureate from "./Laureate";
+import{get} from "./RequestAPI";
 
 
 export default function NobelPrize(props) {
-    return (<div className ="random">
-        <div> Award Year: {props.data.awardYear}</div>
-        <div> Category: {props.data.category.en}</div>
+    const [data, setData] = useState(null);
+    useEffect(() => {
+
+        get(props.index,1,(arr) => {setData(arr[0])})
+    }, [props.index])
+    return  data===null ? <div>loading...</div> :
+    (<div className ="NobelPrize">
+        <div> Award Year: {data.awardYear}</div>
+        <div> Category: {data.category.en}</div>
         
-        {props.data.laureates === undefined ? 
+        {data.laureates === undefined ? 
             <div>price was not given out</div> : 
             
-            props.data.laureates.map((laureate) => {return <Laureate data={laureate} key={laureate.id} />})}
-        <div> prizeAmount: {props.data.prizeAmount}</div>
-        <div> prizeAmountAdjusted: {props.data.prizeAmountAdjusted}</div>
+            data.laureates.map((laureate) => {return <Laureate data={laureate} key={laureate.id} />})}
+        <div> prizeAmount: {data.prizeAmount}</div>
+        <div> prizeAmountAdjusted: {data.prizeAmountAdjusted}</div>
+        
+        
     </div>)
 }

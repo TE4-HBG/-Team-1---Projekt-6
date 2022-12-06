@@ -1,44 +1,58 @@
+import { request } from "https"
+import delay from "./delay.js";
 /**
  * @param {number} timeout 
  * @param {number} precision 
- * @returns {number}
+ * @returns {Promise<number>}
  */
-export function getNobelPrizeCount(timeout = 10000.0, precision = 100.0) {
-    return new Promise((resolve, reject) => {
-        const req = new XMLHttpRequest();
-        req.responseType = "json";
-        req.open("GET", `https://api.nobelprize.org/2.1/nobelPrizes?limit=1&offset=0`);
-        req.send();
+export async function getNobelPrizeCount(timeout = 10000.0, precision = 100.0) {
+    let data = "";
+    let finished = false;
+    const req = request({ hostname: "api.nobelprize.org", path: "/2.1/nobelPrizes?limit=1&offset=0", method: "GET" }, (res) => {
+        res.on('data', (chunk) => data += chunk.toString());
+        res.on("end", () => finished = true);
+        res.on("error", (e) => { throw e; });
+    });
+    req.on('error', (e) => { throw e; });
+    req.end();
 
-        for (let timer = 0.0; timer < timeout; index += precision) {
-            if(req.status == XMLHttpRequest.DONE) {
-                resolve(req.response.meta.count)
-                return;
-            }
+    for (let timer = 0.0; timer < timeout; timer += precision) {
+        if (finished) {
+            console.log("success!")
+            return JSON.parse(data).meta.count;
         }
-        reject("timed out");
-    })
+        console.log(`waiting: ${timer + precision}`)
+
+        await delay(precision);
+    }
+    throw "timed out";
 }
 /**
  * @param {number} timeout 
  * @param {number} precision 
- * @returns {number}
+ * @returns {Promise<number>}
  */
-export function getLaureateCount(timeout = 10000.0, precision = 100.0) {
-    return new Promise((resolve, reject) => {
-        const req = new XMLHttpRequest();
-        req.responseType = "json";
-        req.open("GET", `https://api.nobelprize.org/2.1/laureates?limit=1&offset=0`);
-        req.send();
+export async function getLaureateCount(timeout = 10000.0, precision = 100.0) {
+    let data = "";
+    let finished = false;
+    const req = request({ hostname: "api.nobelprize.org", path: "/2.1/laureates?limit=1&offset=0", method: "GET" }, (res) => {
+        res.on('data', (chunk) => data += chunk.toString());
+        res.on("end", () => finished = true);
+        res.on("error", (e) => { throw e; });
+    });
+    req.on('error', (e) => { throw e; });
+    req.end();
 
-        for (let timer = 0.0; timer < timeout; index += precision) {
-            if(req.status == XMLHttpRequest.DONE) {
-                resolve(req.response.meta.count)
-                return;
-            }
+    for (let timer = 0.0; timer < timeout; timer += precision) {
+        if (finished) {
+            console.log("success!")
+            return JSON.parse(data).meta.count;
         }
-        reject("timed out");
-    })
+        console.log(`waiting: ${timer + precision}`)
+
+        await delay(precision);
+    }
+    throw "timed out";
 }
 /**
  * 
@@ -46,44 +60,76 @@ export function getLaureateCount(timeout = 10000.0, precision = 100.0) {
  * @param {number} limit 
  * @param {number} timeout 
  * @param {number} precision 
- * @returns {NobelPrize[]}
+ * @returns {Promise<APINobelPrize[]>}
  */
-export function getNobelPrizes(offset, limit, timeout = 10000.0, precision = 100.0) {
-    return new Promise((resolve, reject) => {
-        const req = new XMLHttpRequest();
-        req.responseType = "json";
-        req.open("GET", `https://api.nobelprize.org/2.0/nobelPrizes?limit=${limit}&offset=${offset}`);
-        req.send();
+export async function getNobelPrizes(offset, limit, timeout = 10000.0, precision = 100.0) {
+    let data = "";
+    let finished = false;
+    const req = request({ hostname: "api.nobelprize.org", path: `/2.1/nobelPrizes?limit=${limit}&offset=${offset}`, method: "GET" }, (res) => {
+        res.on('data', (chunk) => data += chunk.toString());
+        res.on("end", () => finished = true);
+        res.on("error", (e) => { throw e; });
+    });
+    req.on('error', (e) => { throw e; });
+    req.end();
 
-        for (let timer = 0.0; timer < timeout; index += precision) {
-            if(req.status == XMLHttpRequest.DONE) {
-                resolve(req.response.nobelPrizes)
-                return;
-            }
+    for (let timer = 0.0; timer < timeout; timer += precision) {
+        if (finished) {
+            console.log("success!")
+            return JSON.parse(data).nobelPrizes;
         }
-        reject("timed out");
-    })
+        console.log(`waiting: ${timer + precision}`)
+
+        await delay(precision);
+    }
+    throw "timed out";
 }
 /**
  * @param {number} offset 
  * @param {number} limit 
  * @param {number} timeout 
  * @param {number} precision 
- * @returns {Laureate[]}
+ * @returns {Promise<APILaureate[]>}
  */
- export function getLaureates(offset, limit, timeout = 10000.0, precision = 100.0) {
-    return new Promise((resolve, reject) => {
-        const req = new XMLHttpRequest();
-        req.responseType = "json";
-        req.open("GET", `https://api.nobelprize.org/2.1/laureates?limit=${limit}&offset=${offset}`);
-        req.send();
+export async function getLaureates(offset, limit, timeout = 180000.0, precision = 100.0) {
+    let data = "";
+    let finished = false;
+    const req = request({ hostname: "api.nobelprize.org", path: `/2.1/laureates?limit=${limit}&offset=${offset}`, method: "GET" }, (res) => {
+        res.on('data', (chunk) => data += chunk.toString());
+        res.on("end", () => finished = true);
+        res.on("error", (e) => { throw e; });
+    });
+    req.on('error', (e) => { throw e; });
+    req.end();
 
-        for (let timer = 0.0; timer < timeout; index += precision) {
-            if(req.status == XMLHttpRequest.DONE) {
-                resolve(req.response.laureates)
-                return;
-            }
+    for (let timer = 0.0; timer < timeout; timer += precision) {
+        if (finished) {
+            console.log("success!")
+            return JSON.parse(data).laureates;
         }
-        reject("timed out");
-    })
+        console.log(`waiting: ${timer + precision}`)
+        await delay(precision);
+    }
+    throw "timed out";
+}
+export async function getLaureate(id, timeout = 10000.0, precision = 100.0) {
+    let data = "";
+    let finished = false;
+    const req = request({ hostname: "api.nobelprize.org", path: `/2.1/laureate/${id}`, method: "GET" }, (res) => {
+        res.on('data', (chunk) => data += chunk.toString());
+        res.on("end", () => finished = true);
+        res.on("error", (e) => { throw e; });
+    });
+    req.on('error', (e) => { throw e; });
+    req.end();
+
+    for (let timer = 0.0; timer < timeout; timer += precision) {
+        if (finished) {
+            console.log("success!")
+            return JSON.parse(data)[0];
+        }
+        console.log(`waiting: ${timer + precision}`)
+        await delay(precision);
+    }
+    throw "timed out";
 }

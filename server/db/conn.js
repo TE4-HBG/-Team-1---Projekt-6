@@ -20,7 +20,3 @@ export async function connectToMongoDB() {
 export function getDb(name, options) {
     return _client.db(name, options);
 };
-export default {
-    connectToServer: connectToMongoDB,
-    getDb,
-};

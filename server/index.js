@@ -9,40 +9,29 @@ app.use(json());
 import record from "./routes/record.js"
 app.use(record);
 // get driver connection
-import { connectToServer, getDb } from "./db/conn.js";
-import { getNobelPrizes, getNobelPrizeCount } from "./RequestAPI.js";
-import { Collection } from "mongodb";
+import { ConnectToDatabase, getDb } from "./db/conn.js";
+import { getNobelPrizes, getNobelPrizeCount, getLaureateCount, getLaureates } from "./RequestAPI.js";
+import { Collection, UpdateResult, Document } from "mongodb";
+import replaceOne from "./wack.js";
+import PopulateCollection from "./populate.js";
+import setIntervalImmediately from "./setIntervalImmediately.js";
+import { LaureateID, TranslateLaureate, TranslateNobelPrize } from "./translate.js";
 
-app.listen(port, () => {
+
+
+app.listen(port, async () => {
   // perform a database connection when server starts
-  connectToServer(function (err) {
-    if (err) console.error(err);
-
-  });
   console.log(`Server is running on port: ${port}`);
-  PopulateDatabase();
-  setInterval(() => {
-    PopulateDatabase();
-  }, 3_600_000);
+  await ConnectToDatabase();
+
+  setIntervalImmediately(async() => {
+    await PopulateCollection();
+  }, 3_600_000)
 });
 
 async function PopulateDatabase() {
   const db = getDb("NobelPrizes");
-  const prizes = db.collection("Prizes");
-  const apiCount = await getNobelPrizeCount();
-  const databaseCount = await prizes.estimatedDocumentCount();
-  if(apiCount != databaseCount) {
-    const rest = await getNobelPrizes(databaseCount, apiCount - databaseCount);
-    rest.forEach((prize,index) => InsertNobelPrizeIntoDatabase(prize,index, prizes));
-  }
-}
-
-/**
- * 
- * @param {NobelPrize} prize 
- * @param {number} index
- * @param {Collection<Document>} collection
- */
-function InsertNobelPrizeIntoDatabase(prize, index, collection) {
-  throw "AAAAAAAAAAAAAAAAA"
+  await PopulateCollection(db.collection("Prizes"), getNobelPrizeCount, getNobelPrizes, TranslateNobelPrize);
+  await PopulateCollection(db.collection("Laureates"), getLaureateCount, getLaureates, TranslateLaureate, LaureateID);
+  console.log("Did the do!");
 }

@@ -2,8 +2,9 @@
  * 
  * @param {() => void} callback 
  * @param {number | undefined} ms 
+ * @return {Promise<NodeJS.Timer>}
  */
 export default async function setIntervalImmediately(callback, ms = undefined) {
     callback();
-    setInterval(callback, ms);
+    return setInterval(callback, ms);
 }

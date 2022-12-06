@@ -14,6 +14,7 @@ import { getNobelPrizes, getNobelPrizeCount, getLaureateCount, getLaureates } fr
 import PopulateCollection from "./populate.js";
 import setIntervalImmediately from "./setIntervalImmediately.js";
 import { LaureateID, TranslateLaureate, TranslateNobelPrize } from "./translate.js";
+import { ObjectId } from "mongodb";
 
 
 
@@ -28,8 +29,9 @@ app.listen(port, async () => {
 });
 
 async function PopulateDatabase() {
+  
   const db = GetDb("NobelPrizes");
-  await PopulateCollection(db.collection("Prizes"), getNobelPrizeCount, getNobelPrizes, TranslateNobelPrize);
-  await PopulateCollection(db.collection("Laureates"), getLaureateCount, getLaureates, TranslateLaureate, LaureateID);
+  await await PopulateCollection(db.collection("Prizes"), getNobelPrizeCount, getNobelPrizes, TranslateNobelPrize);
+  await await PopulateCollection(db.collection("Laureates"), getLaureateCount, getLaureates, TranslateLaureate, LaureateID);
   console.log("Did the do!");
 }

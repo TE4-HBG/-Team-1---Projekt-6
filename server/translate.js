@@ -16,7 +16,7 @@ export function TranslateNobelPrize(prize) {
         categoryFull_no: prize.categoryFullName.no,
         categoryFull_se: prize.categoryFullName.se,
         laureates: prize.laureates === undefined ? undefined : prize.laureates.map((laureate) => {
-            return laureate.id;
+            return Number(laureate.id);
         }),
         prizeAmount: prize.prizeAmount,
         prizeAmountAdjusted: prize.prizeAmountAdjusted,

@@ -1,4 +1,4 @@
-import {UpdateResult, Document, Collection } from "mongodb";
+//import {UpdateResult, Collection } from "mongodb";
 /**
  * @param {Collection<Document>} collection
  * @param {number} index

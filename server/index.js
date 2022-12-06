@@ -9,7 +9,7 @@ app.use(json());
 import record from "./routes/record.js"
 app.use(record);
 // get driver connection
-import { ConnectToDatabase, getDb } from "./db/conn.js";
+import { ConnectToMongoDB, getDb } from "./db/conn.js";
 import { getNobelPrizes, getNobelPrizeCount, getLaureateCount, getLaureates } from "./RequestAPI.js";
 import { Collection, UpdateResult, Document } from "mongodb";
 import replaceOne from "./wack.js";
@@ -22,7 +22,7 @@ import { LaureateID, TranslateLaureate, TranslateNobelPrize } from "./translate.
 app.listen(port, async () => {
   // perform a database connection when server starts
   console.log(`Server is running on port: ${port}`);
-  await ConnectToDatabase();
+  await ConnectToMongoDB();
 
   setIntervalImmediately(async() => {
     await PopulateCollection();

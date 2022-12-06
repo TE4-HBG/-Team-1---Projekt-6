@@ -8,18 +8,18 @@
 
 
 /**
- * @typedef {Object} NobelPrize
+ * @typedef {Object} APINobelPrize
  * @prop {number} awardYear
  * @prop {TranslatedString} category
  * @prop {TranslatedString} categoryFullName
- * @prop {NobelPrizeLaureate[] | undefined} laurates
+ * @prop {APIMinLaureate[] | undefined} laureates
  * @prop {Link} links
  * @prop {number} prizeAmount
  * @prop {number} prizeAmountAdjusted
  */
 
 /**
- * @typedef {Object} NobelPrizeLaureate
+ * @typedef {Object} APIMinLaureate
  * @prop {TranslatedString | undefined} fullName
  * @prop {number} id
  * @prop {TranslatedString | undefined} knownName
@@ -38,7 +38,7 @@
  */
 
 /**
- * @typedef {Object} Laureate
+ * @typedef {Object} APILaureate
  * @prop {TimeAndPlace} birth
  * @prop {TimeAndPlace | undefined} death
  * @prop {TranslatedString} familyName
@@ -51,7 +51,7 @@
  * 
  */
 /**
- * @typedef LaureateNobelPrize
+ * @typedef APIMinNobelPrize
  * @prop {undefined} pain
  */
 /**

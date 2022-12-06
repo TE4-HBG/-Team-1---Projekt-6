@@ -4,18 +4,18 @@ import NobelPrize from "./components/NobelPrize";
 
 
 const Timer = () => {
-    const [num, setNum] = useState(null);
+   
     const [count, setCount] = useState(null);
-    const [nobelPrize, setNobelPrize] = useState(null);
+    const [nobelPrizeIndex, setNobelPrizeIndex] = useState(null);
     useEffect(() => {
         getCount(setCount);
         if (count) {
-            setNum(randomNumberInRange(0, count));
+            setNobelPrizeIndex(randomNumberInRange(0, count));
         }
         const timer = setInterval(() => {
             getCount(setCount);
             if (count) {
-                setNum(randomNumberInRange(0, count));
+                setNobelPrizeIndex(randomNumberInRange(0, count));
             }
         }, 300 * 1000);
         return () => {
@@ -24,16 +24,12 @@ const Timer = () => {
     }, [count]);
 
 
-    useEffect(() => {
-        if (num != null) {
-            get(num, 1, (arr) => (setNobelPrize(arr[0])));
-        }
-
-    }, [num])
-    console.log()
-    return nobelPrize === null ?
+    return (<div className ="Timer"> 
+        {nobelPrizeIndex === null ?
         <div>Loading...</div> :
-        <NobelPrize data={nobelPrize} />
+        <NobelPrize index={nobelPrizeIndex} />}
+    </div>)
+
 }
 
 function randomNumberInRange(min, max) {

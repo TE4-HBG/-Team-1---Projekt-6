@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { getCount, get } from "./RequestAPI";
-import NobelPrize from "./components/NobelPrize";
+import { getCount, get } from "../RequestAPI";
+import NobelPrize from "./NobelPrize";
 
 
 const Timer = () => {

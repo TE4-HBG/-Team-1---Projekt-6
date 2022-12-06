@@ -3,7 +3,7 @@ import { MongoClient, Db } from "mongodb";
  * @type {MongoClient | null}
  */
 let _client = null;
-export async function connectToServer() {
+export async function connectToMongoDB() {
     const client = await (new MongoClient(process.env.ATLAS_URI,   {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -21,6 +21,6 @@ export function getDb(name, options) {
     return _client.db(name, options);
 };
 export default {
-    connectToServer,
+    connectToServer: connectToMongoDB,
     getDb,
 };

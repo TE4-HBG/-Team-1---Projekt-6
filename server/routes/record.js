@@ -9,7 +9,7 @@ const prizeCache = {};
 const laureateCache = {};
 
 // This will help us connect to the database
-import { getDb } from "../db/conn.js";
+import { GetDb } from "../db/conn.js";
 
 // This help convert the id from string to ObjectId for the _id.
 //import { ObjectId, Document } from "mongodb";
@@ -20,11 +20,11 @@ import delay from "../delay.js";
 
 // get the records
 recordRoutes.route("prize/:prompt/:i").get(async function (req, res) {
-  res.json(await getDb("NobelPrizes").collection("Prizes").findOne(getNobelPrizePrompt(req.params.i, req.params.prompt)))
+  res.json(await GetDb("NobelPrizes").collection("Prizes").findOne(getNobelPrizePrompt(req.params.i, req.params.prompt)))
 });
 // get the records
 recordRoutes.route("laureate/:prompt/i").get(async function (req, res) {
-  res.json(await getDb("NobelPrizes").collection("Laureates").findOne(getLaureatePrompt(req.params.i, req.params.prompt)))
+  res.json(await GetDb("NobelPrizes").collection("Laureates").findOne(getLaureatePrompt(req.params.i, req.params.prompt)))
 });
 
 
@@ -73,7 +73,7 @@ async function cacheLauratePrompt(prompt) {
   }
 
   const count = (await getLaureateCount() + 1);
-  const collection = getDb("NobelPrizes").collection("Laureates");
+  const collection = GetDb("NobelPrizes").collection("Laureates");
   for (let i = 1; i < count; i++) {
     const document = await collection.findOne({ _id: i });
     if (promptIsCool(prompt, document)) {
@@ -96,7 +96,7 @@ async function cacheNobelPrizePrompt(prompt) {
   }
 
   const count = await getNobelPrizeCount();
-  const db = getDb("NobelPrizes")
+  const db = GetDb("NobelPrizes")
   const collection = db.collection("Prizes");
   const laureates = db.collection("Laureates");
   for (let i = 0; i < count; i++) {

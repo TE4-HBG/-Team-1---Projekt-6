@@ -9,10 +9,8 @@ app.use(json());
 import record from "./routes/record.js"
 app.use(record);
 // get driver connection
-import { ConnectToMongoDB, getDb } from "./db/conn.js";
+import { ConnectToMongoDB, GetDb } from "./db/conn.js";
 import { getNobelPrizes, getNobelPrizeCount, getLaureateCount, getLaureates } from "./RequestAPI.js";
-import { Collection, UpdateResult, Document } from "mongodb";
-import replaceOne from "./wack.js";
 import PopulateCollection from "./populate.js";
 import setIntervalImmediately from "./setIntervalImmediately.js";
 import { LaureateID, TranslateLaureate, TranslateNobelPrize } from "./translate.js";
@@ -25,12 +23,12 @@ app.listen(port, async () => {
   await ConnectToMongoDB();
 
   setIntervalImmediately(async() => {
-    await PopulateCollection();
+    await PopulateDatabase();
   }, 3_600_000)
 });
 
 async function PopulateDatabase() {
-  const db = getDb("NobelPrizes");
+  const db = GetDb("NobelPrizes");
   await PopulateCollection(db.collection("Prizes"), getNobelPrizeCount, getNobelPrizes, TranslateNobelPrize);
   await PopulateCollection(db.collection("Laureates"), getLaureateCount, getLaureates, TranslateLaureate, LaureateID);
   console.log("Did the do!");

@@ -1,3 +1,5 @@
+import replaceOne from "./wack.js";
+
 /**
  * 
  * @param {Collection<Document>} collection

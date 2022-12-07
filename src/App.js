@@ -58,9 +58,42 @@ function App() {
         }
       </div>
       <Popup state={popupState} setState={setPopupState} >
-        <h2>
-          HELLO WORLD!
+        <div className="LoginForm">
+        <h2 className="Title">
+          Login! 
         </h2>
+        </div>
+        <div>
+          <h5 className="TextPromtForUsername"> 
+            Username or E-mail adress:
+          </h5>
+          <input className="Username" type={Text}>
+          </input>
+        </div>
+        <div>
+          <h5 className="TextPromtForPassword">
+            Password:
+          </h5>
+          <input className="Password" type={Text}>
+
+          </input>
+        </div>
+        <div className="Sign_in">
+          <button onclick={alert="Sign in"}>
+          <h6>
+            Sign in!
+          </h6>
+          </button>
+        </div>
+
+        <div className="Create_User" >
+          <button onclick={alert="NewUser"}>
+          <h6>
+            Create account!
+          </h6>
+          </button>
+        </div>
+
       </Popup>
 
     </div>

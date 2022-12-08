@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { random } from "../RequestAPI";
+import Laureate from "./Laureate";
 import NobelPrize from "./NobelPrize";
 
 
@@ -14,14 +15,19 @@ export const Timer = () => {
 
     useEffect(() => {
         SetData()
-        const intervalID = setInterval(SetData, 300 * 1000);
+        const intervalID = setInterval(SetData, 86_400_000);
         return function () { clearInterval(intervalID); }
-    });
+    }, []);
 
 
     return (
-        <div className="Timer">
-            <NobelPrize data={data} />
+        <div className="Timer" style={
+            {
+                backgroundColor: "#333",
+            }
+            }>
+            <h2 style={{ color: "#fff" }}>Laureate of the day</h2>
+            <Laureate data={data} />
         </div>
     )
 

@@ -36,7 +36,7 @@ router.route("/get/prize/:prompt/:i").get(async function (req, res) {
 router.route("/get/laureate/:prompt/:i").get(async function (req, res) {
   const id = await getLaureatePrompt(req.params.i, req.params.prompt);
   if (id) {
-    res.json(await Database.GetLaureates.findOne({ _id: id }))
+    res.json(await Database.GetLaureates().findOne({ _id: id }))
   } else {
     res.json(null)
   }

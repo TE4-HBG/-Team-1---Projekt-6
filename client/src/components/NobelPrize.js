@@ -4,6 +4,12 @@ import{get} from "../RequestAPI";
 
 
 export default function NobelPrize(props) {
+    return (
+        <div>
+            {JSON.stringify(props.data)}
+        </div>
+    )
+    /*
     return  props.data===null ? <div>loading...</div> :
     (<div className ="NobelPrize">
         <div> Award Year: {props.data.awardYear}</div>
@@ -18,4 +24,5 @@ export default function NobelPrize(props) {
         
         
     </div>)
+    */
 }

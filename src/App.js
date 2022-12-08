@@ -11,6 +11,9 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Timer from "./Timer"
 import NobelPrize from "./NobelPrize";
 import Popup from './components/Modal/Popup';
+import LoginInfo from "./LoginInfo";
+
+
 
 
 function App() {
@@ -58,36 +61,10 @@ function App() {
         }
       </div>
       <Popup state={popupState} setState={setPopupState} >
-        <div className="LoginForm">
-        <h2 className="Title">
-          Login! 
-        </h2>
-        </div>
-        <div>
-          <h5 className="TextPromtForUsername"> 
-            Username or E-mail adress:
-          </h5>
-          <input className="Username" type={Text}>
-          </input>
-        </div>
-        <div>
-          <h5 className="TextPromtForPassword">
-            Password:
-          </h5>
-          <input className="Password" type={Text}>
-
-          </input>
-        </div>
-        <div className="Sign_in">
-          <button onclick={alert="Sign in"}>
-          <h6>
-            Sign in!
-          </h6>
-          </button>
-        </div>
+      <LoginInfo/>
 
         <div className="Create_User" >
-          <button onclick={alert="NewUser"}>
+          <button onClick={() => {alert(":)")}}>
           <h6>
             Create account!
           </h6>

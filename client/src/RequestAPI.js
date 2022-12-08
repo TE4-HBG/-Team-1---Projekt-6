@@ -1,17 +1,17 @@
-export function getCount(set) {
-    const req = new XMLHttpRequest();
-        req.addEventListener("load", ({ target }) => {
-            set(JSON.parse(target.responseText).meta.count);
-        });
-        req.open("GET", "https://api.nobelprize.org/2.0/nobelPrizes?limit=0");
-        req.send();
-}
-export function get(offset, limit, set) {
+export function get(type, prompt, index, set) {
     const req = new XMLHttpRequest();
             req.addEventListener("load", ({ target }) => {
                 set(JSON.parse(target.responseText).nobelPrizes);
             });
-            req.open("GET", `https://api.nobelprize.org/2.0/nobelPrizes?limit=${limit}&offset=${offset}`);
+            req.open("GET", `http://213.188.154.113:1337/get/${type}/${prompt}/${index}`);
+            req.send();
+}
+export function random(type, size=1, set) {
+    const req = new XMLHttpRequest();
+            req.addEventListener("load", ({ target }) => {
+                set(JSON.parse(target.responseText).nobelPrizes);
+            });
+            req.open("GET", `http://213.188.154.113:1337/random/${type}?size=${size}`);
             req.send();
 }
 

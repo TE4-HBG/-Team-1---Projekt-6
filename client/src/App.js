@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { getCount, get } from "./RequestAPI";
+import { get } from "./RequestAPI";
 
 import { Searchbar } from "./components/Searchbar"
 import { HandleSearch, ReturnObjectIdOfLettersPrompt } from './components/handleSearch.js'
@@ -12,58 +12,55 @@ import Popup from './components/Popup';
 import LoginInfo from "./components/LoginInfo";
 
 function App() {
-  const [prompt, setPrompt] = useState("")
-  const [nobelPrizes, setNobelPrizes] = useState(null);
-  const [count, setCount] = useState(null);
-  const [searchResult, setSearchResult] = useState(null);
+  const [searchResult, setSearchResult] = useState([]);
+  const [searchPrompt, setSearchPrompt] = useState("")
   const [popupState, setPopupState] = useState(false);
-  let queriedPrizes;
-  useEffect(() => {
-    getCount(setCount);
-  }, [])
 
   useEffect(() => {
-    if (count !== null) {
-      get(0, count, setNobelPrizes);
+    if (searchPrompt.length < 0) {
+      setSearchResult([null]);
+
     }
-  }, [count]);
+  }, [searchPrompt])
 
   useEffect(() => {
+    if (searchResult.length !== 0) {
+      if (searchResult[searchResult.length] === null) {
+        get("laureate", searchPrompt, searchResult.length, (result) => {
+          if (result === null) {
+            setSearchPrompt((previous) => { previous.pop(); return previous; })
+          } else {
+            setSearchPrompt((previous) => {
+              previous[searchResult.length] = result;
+              previous.push(null);
+            })
 
-
-    if (prompt.length > 0) {
-      setSearchResult(ReturnObjectIdOfLettersPrompt(nobelPrizes, prompt))
-      console.log("search result set")
-      /*console.log(nobelPrizes)
-     
-      queriedPrizes += nobelPrizes.filter((nobelPrize) => {
-      return;
-      });*/
+          }
+        })
+      }
     }
+  }, [searchResult, searchPrompt])
 
-  }, [nobelPrizes, prompt])
-
-  console.log(searchResult);
   return (
     <>
 
       <NavbarDarkExample />
-      <Searchbar updatePrompt={setPrompt} />
-      <HandleSearch prompt={prompt} lauretaes={queriedPrizes} />
-      <Timer />
+      <Searchbar updatePrompt={setSearchPrompt} />
+
       <div className="Test">
         {
           searchResult !== null && searchResult.map((index) => { return <NobelPrize index={index} /> })
         }
       </div>
+      <Timer />
       <Popup state={popupState} setState={setPopupState} >
-      <LoginInfo/>
+        <LoginInfo />
 
         <div className="Create_User" >
-          <button onClick={() => {alert(":)")}}>
-          <h6>
-            Create account!
-          </h6>
+          <button onClick={() => { alert(":)") }}>
+            <h6>
+              Create account!
+            </h6>
           </button>
         </div>
 

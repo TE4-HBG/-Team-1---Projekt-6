@@ -32,7 +32,7 @@ export function TranslateLaureate(laureate, index) {
     const isOrganisation = laureate.orgName !== undefined;
     let object = {
         fileName: laureate.fileName,
-        nobelPrizes: undefined
+        nobelPrizes: [],
     }
     if (laureate.wikipedia) {
         object.wikipedia = laureate.wikipedia.english;

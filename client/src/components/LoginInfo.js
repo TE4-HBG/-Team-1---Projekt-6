@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {SendLogin} from "./RequestAPI"
+import {SendLogin} from "../RequestAPI"
 
 
 export default function LoginInfo(props) {

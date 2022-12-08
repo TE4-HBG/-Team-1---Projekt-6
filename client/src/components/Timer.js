@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getCount, get } from "./RequestAPI";
+import { getCount, get } from "../RequestAPI";
 import NobelPrize from "./NobelPrize";
 
 

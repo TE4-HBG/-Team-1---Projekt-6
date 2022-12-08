@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import "./Modal.css";
+import "../Popup.css";
 
 export default function Popup(props) {
   

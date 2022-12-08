@@ -19,14 +19,14 @@ function App() {
 
   useEffect(() => {
     if (searchPrompt.length !== 0) {
-      console.log("this should run");
+      console.log("got a new prompt");
       setSearchResult([null]);
 
     }
   }, [searchPrompt])
 
   useEffect(() => {
-
+    console.log("search result changed!")
     if (searchResult.length !== 0) {
 
       if (searchResult[searchResult.length - 1] === null) {
@@ -34,20 +34,21 @@ function App() {
           console.log("got the stuff");
           if (result === null) {
             console.log("nothing new");
-            setSearchResult((previous) => { previous.pop(); return previous; })
+            setSearchResult((previous) => { previous.pop(); return [...previous]; })
           } else {
             console.log("but wait, there's more");
 
             setSearchResult((previous) => {
-              previous[searchResult.length] = result;
+              previous[searchResult.length - 1] = result;
               previous.push(null);
+              return [ ...previous];
             })
 
           }
         })
       }
     }
-  }, [searchResult])
+  }, [searchPrompt, searchResult])
 
   return (
     <>

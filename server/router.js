@@ -12,7 +12,7 @@ const laureateCache = {};
 
 
 router.route("/random/prize").get(async function (req, res) {
-  const size = req.query.size ? req.query.size : 1;
+  const size = req.query.size ? Number(req.query.size) : 1;
   const arr = await Database.GetPrizes().aggregate([{ $sample: { size: size } }]).toArray();
   res.json(arr);
 });
@@ -21,7 +21,7 @@ router.route("/login/").get(async function(req, res) {
 })
 
 router.route("/random/laureate").get(async function (req, res) {
-  const size = req.query.size ? req.query.size : 1;
+  const size = req.query.size ? Number(req.query.size) : 1;
   const arr = await Database.GetLaureates().aggregate([{ $sample: { size: size } }]).toArray();
   res.json(arr);
 });

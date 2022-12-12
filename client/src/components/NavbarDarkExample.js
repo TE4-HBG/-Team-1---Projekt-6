@@ -1,11 +1,14 @@
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import Timer from "./Timer";
 
 export default function NavbarDarkExample(props) {
   return (
     <Navbar variant="dark" bg="dark" expand="lg">
       <Container fluid>
         <Navbar.Brand href="#home">NOBELFINDER</Navbar.Brand>
+        {props.searchBar && props.searchBar}
         <Navbar.Toggle aria-controls="navbar-dark-example" />
+
         <Navbar.Collapse id="navbar-dark-example">
           <Nav>
             <NavDropdown
@@ -21,7 +24,11 @@ export default function NavbarDarkExample(props) {
                 TEAM 1 PRODUCTION
               </NavDropdown.Item>
             </NavDropdown>
-            {props.children}
+            <NavDropdown
+              title="Laureate of the day"
+            >
+              <Timer />
+            </NavDropdown>
           </Nav>
         </Navbar.Collapse>
       </Container>

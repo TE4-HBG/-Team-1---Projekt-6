@@ -22,7 +22,7 @@ export const Timer = () => {
 
     return (
         <div style={{float: "right"}} className="Timer">
-            <h2>Laureate of the day</h2>
+            <h2 style={{ textAlign:"center" }}>Laureate of the day</h2>
             <Laureate data={data} />
         </div>
     )

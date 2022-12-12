@@ -11,6 +11,7 @@ import NobelPrize from "./components/NobelPrize";
 import Popup from './components/Popup';
 import LoginInfo from "./components/LoginInfo";
 import Laureate from "./components/Laureate";
+import { Container } from "react-bootstrap";
 
 function App() {
   const [searchResult, setSearchResult] = useState([]);
@@ -53,16 +54,12 @@ function App() {
   return (
     <>
 
-      <NavbarDarkExample>
-        <Searchbar onSubmit={setSearchPrompt} />
-      </ NavbarDarkExample>
-      <Timer />
+      <NavbarDarkExample searchBar={<Searchbar onSubmit={setSearchPrompt} />} />
 
-
-      <div className="Test">
+      <div style={{ display: "flex", flexWrap: "wrap", alignContent: "flex-start", justifyContent: "space-around", alignItems: "flex-start" }}>
         {
           searchResult !== null && searchResult.map((data) => { return <Laureate data={data} /> })
-        }
+        } 
       </div>
 
       <Popup state={popupState} setState={setPopupState} >

@@ -1,6 +1,6 @@
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 
-export default function NavbarDarkExample() {
+export default function NavbarDarkExample(props) {
   return (
     <Navbar variant="dark" bg="dark" expand="lg">
       <Container fluid>
@@ -21,6 +21,7 @@ export default function NavbarDarkExample() {
                 TEAM 1 PRODUCTION
               </NavDropdown.Item>
             </NavDropdown>
+            {props.children}
           </Nav>
         </Navbar.Collapse>
       </Container>

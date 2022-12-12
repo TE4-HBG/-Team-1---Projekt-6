@@ -21,12 +21,8 @@ export const Timer = () => {
 
 
     return (
-        <div className="Timer" style={
-            {
-                backgroundColor: "#333",
-            }
-            }>
-            <h2 style={{ color: "#fff" }}>Laureate of the day</h2>
+        <div style={{float: "right"}} className="Timer">
+            <h2>Laureate of the day</h2>
             <Laureate data={data} />
         </div>
     )

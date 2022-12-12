@@ -41,7 +41,7 @@ function App() {
             setSearchResult((previous) => {
               previous[searchResult.length - 1] = result;
               previous.push(null);
-              return [ ...previous];
+              return [...previous];
             })
 
           }
@@ -53,9 +53,11 @@ function App() {
   return (
     <>
 
-      <NavbarDarkExample />
+      <NavbarDarkExample>
+        <Searchbar onSubmit={setSearchPrompt} />
+      </ NavbarDarkExample>
       <Timer />
-      <Searchbar onSubmit={setSearchPrompt} />
+
 
       <div className="Test">
         {

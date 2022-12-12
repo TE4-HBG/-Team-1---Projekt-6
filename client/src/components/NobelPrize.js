@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Laureate from "./Laureate";
 import{get} from "../RequestAPI";
+import { Container } from "react-bootstrap";
 
 
 export default function NobelPrize(props) {
     return (
-        <div>
+        <Container>
             {JSON.stringify(props.data)}
-        </div>
+        </Container>
     )
     /*
     return  props.data===null ? <div>loading...</div> :

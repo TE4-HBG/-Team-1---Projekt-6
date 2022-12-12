@@ -1,7 +1,13 @@
+import { Card } from "react-bootstrap";
+
 export default function Laureate(props) {
-    return (<div>
-        {JSON.stringify(props.data)}
-    </div>)
+    return (<Card style={ { width: '18rem' } }>
+        <Card.Img variant="top" src="https://placekitten.com/286/180"></Card.Img>
+        <Card.Body>
+            <Card.Title>{props.data && props.data.knownName}</Card.Title>
+            {JSON.stringify(props.data)}
+        </Card.Body>
+    </Card>)
 
     /*
     return (

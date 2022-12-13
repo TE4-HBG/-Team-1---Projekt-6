@@ -18,6 +18,8 @@ function App() {
   const [searchPrompt, setSearchPrompt] = useState("")
   const [popupState, setPopupState] = useState(false);
 
+
+
   useEffect(() => {
     if (searchPrompt.length !== 0) {
       console.log("got a new prompt");
@@ -54,13 +56,17 @@ function App() {
   return (
     <>
 
-      <NavbarDarkExample searchBar={<Searchbar onSubmit={setSearchPrompt} />} />
+      <NavbarDarkExample searchBar={<Searchbar onSubmit={setSearchPrompt} />} popupButton={<button onClick={function () { setPopupState(!popupState) }}>
+        Login!
+      </button>} />
 
       <div style={{ display: "flex", flexWrap: "wrap", alignContent: "flex-start", justifyContent: "space-around", alignItems: "flex-start" }}>
         {
           searchResult !== null && searchResult.map((data) => { return <Laureate data={data} /> })
-        } 
+        }
       </div>
+
+
 
       <Popup state={popupState} setState={setPopupState} >
         <LoginInfo />

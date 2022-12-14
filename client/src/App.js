@@ -23,15 +23,7 @@ function App() {
 
 
       <Popup state={popupState} setState={setPopupState} >
-        <LoginInfo />
-
-        <div className="Create_User" >
-          <button onClick={() => { alert(":)") }}>
-            <h6>
-              Create account!
-            </h6>
-          </button>
-        </div>
+        
 
       </Popup>
     </>

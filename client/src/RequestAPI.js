@@ -25,4 +25,27 @@ export function SendLogin(Username, Password, set) {
     req.setRequestHeader("Username", Username);
     req.setRequestHeader("Password", Password);
     req.send();
+<<<<<<< Updated upstream:client/src/RequestAPI.js
 }
+=======
+}
+export function Signup(Username, Password, set) {
+    const req = new XMLHttpRequest();
+    req.addEventListener("load", ({ target }) => {
+        set(JSON.parse(target.responseText));
+    });
+    req.open("GET", `${ip}/Signup`);
+    req.setRequestHeader("Username", Username);
+    req.setRequestHeader("Password", Password);
+    req.send();
+}
+
+const Server =  {
+    prompt,
+    random,
+    login,
+    Signup,
+}
+
+export default Server;
+>>>>>>> Stashed changes:client/src/Server.js

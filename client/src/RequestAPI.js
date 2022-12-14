@@ -25,7 +25,7 @@ export function SendLogin(Username, Password, set) {
     req.addEventListener("load", ({ target }) => {
         set(JSON.parse(target.responseText));
     });
-    req.open("GET", "http://localhost:1337/login/");
+    req.open("GET", "${ip}/login");
     req.setRequestHeader("Username", Username);
     req.setRequestHeader("Password", Password);
     req.send();

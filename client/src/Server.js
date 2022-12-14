@@ -20,7 +20,7 @@ export function random(type, size = 1, set) {
     req.send();
 }
 
-export function SendLogin(Username, Password, set) {
+export function login(Username, Password, set) {
     const req = new XMLHttpRequest();
     req.addEventListener("load", ({ target }) => {
         set(JSON.parse(target.responseText));
@@ -30,3 +30,11 @@ export function SendLogin(Username, Password, set) {
     req.setRequestHeader("Password", Password);
     req.send();
 }
+
+const Server =  {
+    prompt,
+    random,
+    login,
+}
+
+export default Server;

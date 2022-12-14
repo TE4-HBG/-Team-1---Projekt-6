@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { Accordion, Card, CarouselItem, ListGroup, ListGroupItem, Placeholder } from "react-bootstrap";
+import { Accordion, Card, Placeholder } from "react-bootstrap";
 import AccordionItem from "react-bootstrap/esm/AccordionItem";
 import "./Laureate.css"
 

@@ -1,13 +1,11 @@
 import { Route, Routes } from "react-router-dom";
-import { get } from "./RequestAPI";
 
 import { Searchbar } from "./components/Searchbar"
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import NavbarDarkExample from './components/NavbarDarkExample';
 
 import Popup from './components/Popup';
 import LoginInfo from "./components/LoginInfo";
-import Laureate from "./components/Laureate";
 import LaureateContainer from "./components/LaureateDisplay";
 
 function App() {

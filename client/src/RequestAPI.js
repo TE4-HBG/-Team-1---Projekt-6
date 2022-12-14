@@ -25,9 +25,6 @@ export function SendLogin(Username, Password, set) {
     req.setRequestHeader("Username", Username);
     req.setRequestHeader("Password", Password);
     req.send();
-<<<<<<< Updated upstream:client/src/RequestAPI.js
-}
-=======
 }
 export function Signup(Username, Password, set) {
     const req = new XMLHttpRequest();
@@ -48,4 +45,3 @@ const Server =  {
 }
 
 export default Server;
->>>>>>> Stashed changes:client/src/Server.js

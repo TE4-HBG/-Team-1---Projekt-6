@@ -1,36 +1,44 @@
+
 import express, { json } from "express";
-const app = express();
 import cors from "cors";
 import dotenv from "dotenv";
-dotenv.config({ path: "./config.env" });
-const port = process.env.PORT || 5000;
-app.use(cors());
-app.use(json());
 import router from "./router.js"
-app.use(router);
-// get driver connection
 import Database from "./Database.js";
-import { getNobelPrizes, getNobelPrizeCount, getLaureateCount, getLaureates } from "./RequestAPI.js";
-import PopulateCollection, { PopulatePrizesAndLaurates } from "./populate.js";
+import { PopulatePrizesAndLaurates } from "./populate.js";
 import setIntervalImmediately from "./setIntervalImmediately.js";
-import { LaureateID, TranslateLaureate, TranslateNobelPrize } from "./translate.js";
-import { ObjectId } from "mongodb";
+
+// configures the environment path, so we can access variables  
+dotenv.config({ path: "./config.env" });
 
 
+const port = process.env.PORT || 5000;
 
+// creates an express app
+const app = express();
+
+// tells the express app to allow Cross-origin resource sharing, allowing us to 
+// A) talk to mongodb 
+// B) allow the react website to talk to this server
+app.use(cors());
+
+// same as above, but instead alllows the express app to handle json
+app.use(json());
+
+// this object contains all the routings. you can look in router.js for more info.
+app.use(router);
+
+// this tells our app to listen for connections. 
+// The inside function is run after the app starts listening for connections.
 app.listen(port, async () => {
-  // perform a database connection when server starts
+  
   console.log(`Server is running on port: ${port}`);
+
+  // connect to database when server starts
   await Database.Connect();
 
-  await setIntervalImmediately(async() => {
-    await PopulateDatabase();
+  // every hour, Populate the database from the nobel prize api
+  await setIntervalImmediately(async () => {
+    await PopulatePrizesAndLaurates();
+    console.log("Sucessfully updated database!");
   }, 3_600_000)
 });
-
-async function PopulateDatabase() {
-  await PopulatePrizesAndLaurates();
-  //await await PopulateCollection(Database.GetPrizes(), getNobelPrizeCount, getNobelPrizes, TranslateNobelPrize);
-  //await await PopulateCollection(Database.GetLaureates(), getLaureateCount, getLaureates, TranslateLaureate, LaureateID);
-  console.log("Did the do!");
-}

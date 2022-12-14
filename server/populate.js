@@ -3,8 +3,8 @@ import replaceOne from "./mongodb.collection.replaceOne.js";
 import { getLaureateCount, getLaureates, getNobelPrizeCount, getNobelPrizes } from "./RequestAPI.js";
 import { LaureateID, TranslateLaureate, TranslateNobelPrize } from "./translate.js";
 
-/**
- * 
+/** 
+ * @deprecated
  * @param {Collection<Document>} collection
  * @param {() => Promise<number>} apiCount 
  * @param {(offset, limit) => Promise<any[]>} apiGet 
@@ -23,6 +23,13 @@ export default async function PopulateCollection(collection, apiCount, apiGet, t
     });
     return result;
 }
+/**
+ * 1) Fethes data from the Nobel Prize API
+ * 2) Translates that data (mainly to remove unnecesary shit when we put it in the database)
+ * 3) Push that data into the database.
+ * 4) ???
+ * 5) Profit.
+ */
 export async function PopulatePrizesAndLaurates() {
     const prizes = await getNobelPrizes(0, await getNobelPrizeCount());
     const laureates = await getLaureates(0, await getLaureateCount());

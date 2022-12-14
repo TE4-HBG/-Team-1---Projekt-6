@@ -1,6 +1,3 @@
-import React, { useState, useEffect } from "react";
-import Laureate from "./Laureate";
-import{get} from "../RequestAPI";
 import { Container } from "react-bootstrap";
 
 

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { random } from "../RequestAPI";
+import Server from "../Server";
 import Laureate from "./Laureate";
-import NobelPrize from "./NobelPrize";
-
 
 
 export const Timer = () => {
@@ -10,7 +8,7 @@ export const Timer = () => {
 
 
     function SetData() {
-        random("laureate", 1, (arr) => { setData(arr[0]) });
+        Server.random("laureate", 1, (arr) => { setData(arr[0]) });
     }
 
     useEffect(() => {

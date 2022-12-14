@@ -1,9 +1,12 @@
-export function get(type, prompt, index, set) {
+//const ip = "http://213.188.154.113:1337";
+const ip = "http://localhost:1337";
+
+export function prompt(type, prompt, index, set) {
     const req = new XMLHttpRequest();
     req.addEventListener("load", ({ target }) => {
         set(JSON.parse(target.responseText));
     });
-    req.open("GET", `http://213.188.154.113:1337/get/${type}/${prompt}/${index}`);
+    req.open("GET", `${ip}/prompt/${type}/${prompt}/${index}`);
     req.send();
 }
 export function random(type, size = 1, set) {
@@ -12,21 +15,21 @@ export function random(type, size = 1, set) {
 
         set(JSON.parse(target.responseText));
     });
-    req.open("GET", `http://213.188.154.113:1337/random/${type}?size=${size}`);
+    req.open("GET", `${ip}/random/${type}?size=${size}`);
     req.send();
 }
 
-export function SendLogin(Username, Password, set) {
+export function login(Username, Password, set) {
     const req = new XMLHttpRequest();
     req.addEventListener("load", ({ target }) => {
         set(JSON.parse(target.responseText));
     });
-    req.open("GET", "http://localhost:1337/login/");
+    req.open("GET", `${ip}/login`);
     req.setRequestHeader("Username", Username);
     req.setRequestHeader("Password", Password);
     req.send();
 }
-export function Signup(Username, Password, set) {
+export function signup(Username, Password, set) {
     const req = new XMLHttpRequest();
     req.addEventListener("load", ({ target }) => {
         set(JSON.parse(target.responseText));
@@ -41,7 +44,7 @@ const Server =  {
     prompt,
     random,
     login,
-    Signup,
+    signup,
 }
 
 export default Server;

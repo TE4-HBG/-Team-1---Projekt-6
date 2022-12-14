@@ -17,9 +17,12 @@ function App() {
   return (
     <>
 
-      <NavbarDarkExample searchBar={<Searchbar onSubmit={setSearchPrompt} />} />
-
+      <NavbarDarkExample searchBar={<Searchbar onSubmit={setSearchPrompt} />} popupButton={<button onClick={function () { setPopupState(!popupState) }}>
+        Login!
+      </button>} />
       <LaureateContainer prompt={searchPrompt}></LaureateContainer>
+
+
 
       <Popup state={popupState} setState={setPopupState} >
         <LoginInfo />

@@ -41,7 +41,7 @@ router.route("/login/").get(async function (req, res) {
   res.json(isValid);
 
 })
-router.route("/Signup/").get(async function (req, res) {
+router.route("/signup/").get(async function (req, res) {
   console.log("test");
   const Username = req.header("Username");
   const Password = req.header("Password");

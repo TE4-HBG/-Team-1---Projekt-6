@@ -34,4 +34,16 @@ export default {
     GetPrizes: () => {
         return _db.collection("Prizes")
     },
-}
+    /**
+     * 
+     * @returns {Collection}
+     */
+    GetUsers: () => {
+        return _db.collection("Users");
+    },
+    CreateUser: (Username, Password) => {
+        const users =  _db.collection("Users");
+         return users.insertOne({username: Username, password: Password, favoriteLaureates: [], favoritePrizes: []});
+        
+    }
+} 

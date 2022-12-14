@@ -28,7 +28,17 @@ const laureateCache = {};
 // this route check the request headers for username and password,
 // compares that with the databse, 
 // then sends a single true or false using res.json(); 
-router.route("/login/").get(function (req, res) {
+router.route("/login/").get(async function (req, res) {
+  console.log("test");
+  const Username = req.header("Username");
+  const Password = req.header("Password");
+  console.log(Username, Password);
+  //await Database.CreateUser(Username, Password);
+  const users = Database.GetUsers();
+  
+  const isValid = (await users.findOne({username:Username, password:Password})) !=null;
+
+  res.json(isValid);
 
 })
 
@@ -72,7 +82,7 @@ router.route("/prompt/laureate/:prompt/:i").get(async function (req, res) {
 
 // this route is a fallback 
 router.route("/*").get(async function (req, res) {
-  res.json({error: "INCORRECT_ENDPOINT", info: "Hello, you did a blunder and now you see this lol :)"})
+  res.json({ error: "INCORRECT_ENDPOINT", info: "Hello, you did a blunder and now you see this lol :)" })
 });
 
 

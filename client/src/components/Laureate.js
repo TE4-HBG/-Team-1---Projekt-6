@@ -1,40 +1,44 @@
+import { useEffect, useState } from "react";
 import { Accordion, Card, CarouselItem, ListGroup, ListGroupItem, Placeholder } from "react-bootstrap";
 import AccordionItem from "react-bootstrap/esm/AccordionItem";
-import { json } from "react-router-dom";
+import "./Laureate.css"
+
 
 export default function Laureate(props) {
-    return (<Card style={{ width: '18rem', margin: "1rem" }}>
+
+
+    return (<Card className="laureate">
         {props.data ?
 
             <>
                 <Card.Img variant="top" src={"https://placekitten.com/270/180"}></Card.Img>
                 <Card.Body>
                     <Card.Title color="dark">{props.data.knownName}</Card.Title>
-                    
-                    <Card.Text>
-                        <Accordion>
-                            <AccordionItem eventKey="0">
-                                <Accordion.Header>Nobel prizes won</Accordion.Header>
-                                <Accordion.Body>
-                                    <ul>
-                                        {props.data.nobelPrizes.map((num) => <li key={num}>{num}</li>)}
-                                    </ul>
-                                </Accordion.Body>
-                            </AccordionItem>
-                            <AccordionItem eventKey="1">
-                                <Accordion.Header>Debug info</Accordion.Header>
-                                <Accordion.Body>
-                                    <code>{JSON.stringify(props.data)}</code>
-                                </Accordion.Body>
-                            </AccordionItem>
-                        </Accordion>
-                    </Card.Text>
+
+
+                    <Accordion>
+                        <AccordionItem eventKey="0">
+                            <Accordion.Header>Nobel prizes won</Accordion.Header>
+                            <Accordion.Body>
+                                <ul>
+                                    {props.data.nobelPrizes.map((num) => <li key={num}>{num}</li>)}
+                                </ul>
+                            </Accordion.Body>
+                        </AccordionItem>
+                        <AccordionItem eventKey="1">
+                            <Accordion.Header>Debug info</Accordion.Header>
+                            <Accordion.Body>
+                                <code>{JSON.stringify(props.data)}</code>
+                            </Accordion.Body>
+                        </AccordionItem>
+                    </Accordion>
+
                     <Card.Link href={props.data.wikipedia}>Wikipedia</Card.Link>
                 </Card.Body>
             </>
             :
             <>
-                <Card.Img variant="top" src="/loading.jpg"></Card.Img>
+                <Card.Img variant="top" src="/loading.png"></Card.Img>
 
                 <Card.Body>
                     <Card.Title><Placeholder>Buncha secret text</Placeholder></Card.Title>

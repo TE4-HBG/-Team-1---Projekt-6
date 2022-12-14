@@ -1,0 +1,20 @@
+@keyframes start {
+    0% { flex-grow: 0; transform: scale(0);}
+    100% { flex-grow: 18rem; transform: scale(1);}
+}
+
+.laureate {
+    animation-name: start;
+    animation-duration: 0.5s;
+    animation-play-state: running;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+    transition: all;
+    width: 18rem;
+    margin: 1rem;
+    transform-origin: top;
+    /*
+    style=""{/*{ width: '18rem', margin: "1rem", transform: `translate(${props.pos ? props.pos[0] * 100 : 0}%,${props.pos ? props.pos[1] * 10 : 0}rem)` }
+     */
+}

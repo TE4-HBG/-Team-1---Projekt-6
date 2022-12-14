@@ -6,7 +6,8 @@ export default function NavbarDarkExample(props) {
     <Navbar variant="dark" bg="dark" expand="lg">
       <Container fluid>
         <Navbar.Brand href="#home">NOBELFINDER</Navbar.Brand>
-        {props.searchBar && props.searchBar}
+       
+        {props.searchBar}
         <Navbar.Toggle aria-controls="navbar-dark-example" />
 
         <Navbar.Collapse id="navbar-dark-example">
@@ -29,6 +30,7 @@ export default function NavbarDarkExample(props) {
             >
               <Timer />
             </NavDropdown>
+            {props.popupButton}
           </Nav>
         </Navbar.Collapse>
       </Container>

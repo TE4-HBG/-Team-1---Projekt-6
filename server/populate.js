@@ -1,6 +1,6 @@
-import Database from "./Database.js";
+import Database from "./database.js";
 import replaceOne from "./mongodb.collection.replaceOne.js";
-import { getLaureateCount, getLaureates, getNobelPrizeCount, getNobelPrizes } from "./RequestAPI.js";
+import { getLaureateCount, getLaureates, getNobelPrizeCount, getNobelPrizes } from "./requestAPI.js";
 import { LaureateID, TranslateLaureate, TranslateNobelPrize } from "./translate.js";
 
 /** 

@@ -1,4 +1,4 @@
-import "./NobelPrize.js";
+import "./nobelprize.js";
 
 /**
  * 

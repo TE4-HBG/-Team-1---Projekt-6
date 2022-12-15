@@ -43,6 +43,7 @@ const Server =  {
     prompt,
     random,
     login,
+    addFavorite,
 }
 
 export default Server;

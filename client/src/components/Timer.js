@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Server from "../Server";
+import server from "../server";
 import Laureate from "./Laureate";
 
 
@@ -8,7 +8,7 @@ export const Timer = () => {
 
 
     function SetData() {
-        Server.random("laureate", 1, (arr) => { setData(arr[0]) });
+        server.random("laureate", 1, (arr) => { setData(arr[0]) });
     }
 
     useEffect(() => {

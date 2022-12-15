@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { Accordion, Button, Card, CarouselItem, ListGroup, ListGroupItem, Placeholder } from "react-bootstrap";
 import AccordionItem from "react-bootstrap/esm/AccordionItem";
 import "./Laureate.css"
-import Server from "../Server.js"
+import server from "../server.js"
+import globals from "../globals";
 
 //For the Button, have onClick be a function imported from Server.js that makes a request
 //To the server to update the mongodb database with the laureate.
 export default function Laureate(props) {
 
+    const [IsValid, setIsValid] = useState(false)
 
     return (<Card className="laureate">
         {props.data ?
@@ -16,7 +18,7 @@ export default function Laureate(props) {
                 <Card.Img variant="top" src={"https://placekitten.com/270/180"}></Card.Img>
                 <Card.Body>
                     <Card.Title color="dark">{props.data.knownName}</Card.Title>
-                <Button className="button" onClick="function()"> 
+                <Button className="button" onClick={server.addFavorite("laureate", globals.userId, setIsValid)}> 
                  Add to Favorites
                 </Button>
 

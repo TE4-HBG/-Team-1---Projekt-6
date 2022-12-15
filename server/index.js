@@ -6,7 +6,6 @@ import router from "./router.js"
 import Database from "./database.js";
 import { PopulatePrizesAndLaurates } from "./populate.js";
 import setIntervalImmediately from "./setIntervalImmediately.js";
-import Globals from "../client/src/globals.js"
 // configures the environment path, so we can access variables  
 dotenv.config({ path: "./config.env" });
 

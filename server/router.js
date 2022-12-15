@@ -4,7 +4,6 @@ import { ObjectId } from "mongodb";
 import Database from "./database.js";
 import delay from "./delay.js";
 import RandomInt from "./random.js";
-import Globals from "../client/src/globals.js";
 
 // router is an instance of the express router.
 // We use it to define our routes.
@@ -83,7 +82,7 @@ router.route("/prompt/laureate/:prompt/:i").get(async function (req, res) {
 
 });
 
-//This route displays favorite nobel prizes and laureates :D
+//This route displays favorite nobel prizes and laureate :D
 router.route("/get/favorites/:id").get(async function (req, res) {
   const id = ObjectID(req.params.id); 
   const result = await Database.GetUsers().findOne({_id: id}, )
@@ -92,10 +91,10 @@ router.route("/get/favorites/:id").get(async function (req, res) {
 
 //This route displays favorite nobel prizes and laureates :D
 router.route("/addfavorite/laureate/:userId/:laureateId").get(async function (req, res) {
+  console.log(req.params.userId)
   const userCollection = Database.GetUsers();
-  await userCollection.updateOne({_id: Number(req.params.id)}, {$push: {favoriteLaureates: req.params.laureateId}})
+  await userCollection.updateOne({_id: Number(req.params.userId)}, {$push: {favoriteLaureates: req.params.laureateId}})
   res.json("yomama")
-  console.log(Globals.test)
 })
   
 // this route is a fallback 

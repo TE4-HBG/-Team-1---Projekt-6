@@ -1,9 +1,7 @@
 import { ObjectID } from "bson";
 import { Router } from "express";
-import { ObjectId } from "mongodb";
-import Database from "./database.js";
+import database from "./database.js";
 import delay from "./delay.js";
-import RandomInt from "./random.js";
 
 // router is an instance of the express router.
 // We use it to define our routes.
@@ -35,7 +33,7 @@ router.route("/login/").get(async function (req, res) {
   const password = req.header("password");
   console.log(username, password);
 
-  Database.models.User.findOne(
+  database.models.User.findOne(
     { username: username, password: password },
     (err, res) => {
       if (err) {
@@ -57,14 +55,14 @@ router.route("/signup/").get(async function (req, res) {
   const username = req.header("username");
   const password = req.header("password");
 
-  Database.models.User.exists(
+  database.models.User.exists(
     { username: username, password: password },
     (err, result) => {
       if (err) {
         console.err(err);
       } else {
         if (result == null) {
-          new Database.models.User({ username: username, password: password }).save().then(
+          new database.models.User({ username: username, password: password }).save().then(
             (value) => {
               res.json(value._id)
             },
@@ -84,7 +82,7 @@ router.route("/signup/").get(async function (req, res) {
 // NOTE: the size parameter is limited to the amount of nobel prizes in the database
 router.route("/random/prize").get(async function (req, res) {
   const size = req.query.size ? Number(req.query.size) : 1;
-  const arr = await Database.models.Prize.aggregate([{ $sample: { size: size } }]).exec();
+  const arr = await database.models.Prize.aggregate([{ $sample: { size: size } }]).exec();
   res.json(arr);
 });
 
@@ -92,7 +90,7 @@ router.route("/random/prize").get(async function (req, res) {
 // NOTE: the size parameter is limited to the amount of laureates in the database
 router.route("/random/laureate").get(async function (req, res) {
   const size = req.query.size ? Number(req.query.size) : 1;
-  const arr = await Database.models.Laureate.aggregate([{ $sample: { size: size } }]).exec();
+  const arr = await database.models.Laureate.aggregate([{ $sample: { size: size } }]).exec();
   res.json(arr);
 });
 
@@ -100,7 +98,7 @@ router.route("/random/laureate").get(async function (req, res) {
 router.route("/prompt/prize/:prompt/:i").get(async function (req, res) {
   const id = await getNobelPrizePrompt(req.params.i, req.params.prompt);
   if (id) {
-    Database.models.Prize.findOne({ _id: id }).exec((err, result) => {
+    database.models.Prize.findOne({ _id: id }).exec((err, result) => {
       if (err) {
         console.error(err)
       } else {
@@ -116,7 +114,7 @@ router.route("/prompt/prize/:prompt/:i").get(async function (req, res) {
 router.route("/prompt/laureate/:prompt/:i").get(async function (req, res) {
   const id = await getLaureatePrompt(req.params.i, req.params.prompt);
   if (id) {
-    Database.models.Laureate.findOne({ _id: id }).exec((err, result) => {
+    database.models.Laureate.findOne({ _id: id }).exec((err, result) => {
       if (err) {
         console.error(err)
       } else {
@@ -132,14 +130,14 @@ router.route("/prompt/laureate/:prompt/:i").get(async function (req, res) {
 //This route displays favorite nobel prizes and laureate :D
 router.route("/get/favorites/:id").get(async function (req, res) {
   const id = ObjectID(req.params.id); 
-  const result = await Database.GetUsers().findOne({_id: id}, )
+  const result = await database.GetUsers().findOne({_id: id}, )
   res.json({favoritePrizes: result.favoritePrizes, favoriteLaureates: result.favoriteLaureates})
 })
 
 //This route displays favorite nobel prizes and laureates :D
 router.route("/addfavorite/laureate/:userId/:laureateId").get(async function (req, res) {
   console.log(req.params.userId)
-  const userCollection = Database.GetUsers();
+  const userCollection = database.GetUsers();
   await userCollection.updateOne({_id: Number(req.params.userId)}, {$push: {favoriteLaureates: req.params.laureateId}})
   res.json("yomama")
 })
@@ -201,7 +199,7 @@ async function cachePrompt(prompt) {
     prizeIds: [],
   }
 
-  Database.models.Laureate.find({}).then((laureates) => {
+  database.models.Laureate.find({}).then((laureates) => {
     console.log(`caching prompt "${prompt}"`);
     laureates.forEach((laureate) => {
       if (promptIsCool(prompt, laureate)) {
@@ -220,7 +218,7 @@ async function cachePrompt(prompt) {
 }
 
 // this should be renamed holy shit
-const Laureate = Database.models.Laureate;
+const Laureate = database.models.Laureate;
 /**
  * 
  * @param {string} prompt 

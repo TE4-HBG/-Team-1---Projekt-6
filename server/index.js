@@ -2,7 +2,7 @@ import express, { json } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import router from "./router.js"
-import Database from "./database.js";
+import database from "./database.js";
 import { PopulatePrizesAndLaurates } from "./populate.js";
 import setIntervalImmediately from "./setIntervalImmediately.js";
 
@@ -30,9 +30,9 @@ app.listen(port, async () => {
   
   console.log(`Server is running on port: ${port}`);
 
-  Database.Connect()
+  database.Connect()
   // connect to database when server starts
-  await Database.connection;
+  await database.connection;
 
   // every hour, Populate the database from the nobel prize api
   await setIntervalImmediately(async () => {

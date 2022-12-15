@@ -1,5 +1,5 @@
 import "./NobelPrize.js";
-import Database from "./Database.js";
+import Database from "./database.js";
 const Laureate = Database.models.Laureate;
 const NobelPrize = Database.models.Prize;
 

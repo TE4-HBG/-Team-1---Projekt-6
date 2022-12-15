@@ -1,5 +1,5 @@
 import React, { isValidElement, useEffect, useState } from "react";
-import Server from "../Server"
+import Server from "../server"
 
 
 export default function SignUpInfo(props) {

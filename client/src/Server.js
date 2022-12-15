@@ -19,24 +19,24 @@ function random(type, size = 1, set) {
     req.send();
 }
 
-function login(Username, Password, set) {
+function login(username, password, set) {
     const req = new XMLHttpRequest();
     req.addEventListener("load", ({ target }) => {
         set(JSON.parse(target.responseText));
     });
     req.open("GET", `${ip}/login`);
-    req.setRequestHeader("Username", Username);
-    req.setRequestHeader("Password", Password);
+    req.setRequestHeader("username", username);
+    req.setRequestHeader("password", password);
     req.send();
 }
-function signup(Username, Password, set) {
+function signup(username, password, set) {
     const req = new XMLHttpRequest();
     req.addEventListener("load", ({ target }) => {
         set(JSON.parse(target.responseText));
     });
     req.open("GET", `${ip}/signup`);
-    req.setRequestHeader("Username", Username);
-    req.setRequestHeader("Password", Password);
+    req.setRequestHeader("username", username);
+    req.setRequestHeader("password", password);
     req.send();
 }
 

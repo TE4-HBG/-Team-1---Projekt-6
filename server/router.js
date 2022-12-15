@@ -21,8 +21,7 @@ const router = Router();
 //
 // The 'isRunning' variable is used to indicate whether we should wait for possibly new id's, 
 // or if we should just make do with no result 
-const prizeCache = {};
-const laureateCache = {};
+const promptCache = {};
 
 // unfinished
 // this route check the request headers for username and password,
@@ -30,26 +29,52 @@ const laureateCache = {};
 // then sends a single true or false using res.json(); 
 router.route("/login/").get(async function (req, res) {
   console.log("test");
-  const Username = req.header("Username");
-  const Password = req.header("Password");
-  console.log(Username, Password);
-  //await Database.CreateUser(Username, Password);
-  const users = Database.GetUsers();
-  
-  const isValid = (await users.findOne({username:Username, password:Password})) !=null;
+  const username = req.header("username");
+  const password = req.header("password");
+  console.log(username, password);
 
-  res.json(isValid);
-
+  Database.models.User.findOne(
+    { username: username, password: password },
+    (err, res) => {
+      if (err) {
+        console.err(err);
+      } else {
+        console.log(res);
+      }
+    }
+  ).exec((err, res) => {
+    if (err) {
+      console.error(err)
+    } else {
+      res.json(res._id);
+    }
+  });
 })
 router.route("/signup/").get(async function (req, res) {
   console.log("test");
-  const Username = req.header("Username");
-  const Password = req.header("Password");
-  console.log(Username, Password);
-  //await Database.CreateUser(Username, Password);
-  
-  res.json(await Database.CreateUser(Username,Password));
+  const username = req.header("username");
+  const password = req.header("password");
 
+  Database.models.User.exists(
+    { username: username, password: password },
+    (err, result) => {
+      if (err) {
+        console.err(err);
+      } else {
+        if (result == null) {
+          new Database.models.User({ username: username, password: password }).save().then(
+            (value) => {
+              res.json(value._id)
+            },
+            (err) => {
+              console.error(err)
+            });
+        } else {
+          res.json(null)
+        }
+      }
+    }
+  );
 })
 
 
@@ -57,7 +82,7 @@ router.route("/signup/").get(async function (req, res) {
 // NOTE: the size parameter is limited to the amount of nobel prizes in the database
 router.route("/random/prize").get(async function (req, res) {
   const size = req.query.size ? Number(req.query.size) : 1;
-  const arr = await Database.GetPrizes().aggregate([{ $sample: { size: size } }]).toArray();
+  const arr = await Database.models.Prize.aggregate([{ $sample: { size: size } }]).exec();
   res.json(arr);
 });
 
@@ -65,7 +90,7 @@ router.route("/random/prize").get(async function (req, res) {
 // NOTE: the size parameter is limited to the amount of laureates in the database
 router.route("/random/laureate").get(async function (req, res) {
   const size = req.query.size ? Number(req.query.size) : 1;
-  const arr = await Database.GetLaureates().aggregate([{ $sample: { size: size } }]).toArray();
+  const arr = await Database.models.Laureate.aggregate([{ $sample: { size: size } }]).exec();
   res.json(arr);
 });
 
@@ -73,7 +98,13 @@ router.route("/random/laureate").get(async function (req, res) {
 router.route("/prompt/prize/:prompt/:i").get(async function (req, res) {
   const id = await getNobelPrizePrompt(req.params.i, req.params.prompt);
   if (id) {
-    res.json(await Database.GetPrizes().findOne({ _id: id }))
+    Database.models.Prize.findOne({ _id: id }).exec((err, result) => {
+      if (err) {
+        console.error(err)
+      } else {
+        res.json(result.toObject());
+      }
+    })
   } else {
     res.json(null)
   }
@@ -83,7 +114,13 @@ router.route("/prompt/prize/:prompt/:i").get(async function (req, res) {
 router.route("/prompt/laureate/:prompt/:i").get(async function (req, res) {
   const id = await getLaureatePrompt(req.params.i, req.params.prompt);
   if (id) {
-    res.json(await Database.GetLaureates().findOne({ _id: id }))
+    Database.models.Laureate.findOne({ _id: id }).exec((err, result) => {
+      if (err) {
+        console.error(err)
+      } else {
+        res.json(result.toObject());
+      }
+    })
   } else {
     res.json(null)
   }
@@ -92,120 +129,101 @@ router.route("/prompt/laureate/:prompt/:i").get(async function (req, res) {
 
 // this route is a fallback 
 router.route("/*").get(async function (req, res) {
-  res.json({ error: "INCORRECT_ENDPOINT", info: "Hello, you did a blunder and now you see this lol :)" })
+  res.json({ error: "Hello, are you lost? :)" })
 });
 
 
 // this function either starts caching the nobel prize prompt, or gets the nobel prize
 // this should definetly be moved to another file, i was just lazy when i wrote this
 async function getNobelPrizePrompt(i, prompt) {
-  if (prizeCache[prompt] === undefined || (!prizeCache[prompt].isRunning && new Date() - prizeCache[prompt].finished > 3_600_000)) {
-    cacheNobelPrizePrompt(prompt);
+  if (promptCache[prompt] === undefined) {
+    cachePrompt(prompt);
   }
 
 
-  while (prizeCache[prompt].isRunning) {
+  while (promptCache[prompt].isRunning) {
 
-    if (prizeCache[prompt].foundIds[i]) {
+    if (promptCache[prompt].prizeIds[i]) {
       break;
     }
     console.log("waiting for results :(")
     await delay(2000);
   }
-  console.log("Yay i got one: " + prizeCache[prompt].foundIds[i])
-  return prizeCache[prompt].foundIds[i];
+  console.log("Yay i got one: " + promptCache[prompt].prizeIds[i])
+  return promptCache[prompt].prizeIds[i];
 }
 
 // same as above, but for laureates
 async function getLaureatePrompt(i, prompt) {
-
-  if (laureateCache[prompt] === undefined) {
-    cacheLauratePrompt(prompt);
+  if (promptCache[prompt] === undefined) {
+    
+    cachePrompt(prompt);
   }
 
-  while (laureateCache[prompt].isRunning) {
-    if (laureateCache[prompt].foundIds[i]) {
+  while (!promptCache[prompt]) { console.log("waiting for prompt to be defined"); await delay(500); }
+  while (promptCache[prompt].isRunning) {
+    if (promptCache[prompt].laureateIds[i]) {
       break;
     }
     console.log("waiting for results :(")
     await delay(2000);
   }
-  console.log("Yay i got one: " + laureateCache[prompt].foundIds[i])
-  return laureateCache[prompt].foundIds[i];
+
+  console.log("Yay i got one: " + promptCache[prompt].laureateIds[i])
+  return promptCache[prompt].laureateIds[i];
 }
 
 
 // this and the function below are the most complex within this entire project.
 // as such, i am gonna have a stroke if i'm gonna explain all of this function right here right now
 // just like the two functions above, these functions should definetly be moved to a separate file.
-async function cacheLauratePrompt(prompt) {
-  if (laureateCache[prompt] === undefined) {
-    laureateCache[prompt] = {
-      isRunning: true,
-      foundIds: [],
-    }
+async function cachePrompt(prompt) {
+  promptCache[prompt] = {
+    isRunning: true,
+    laureateIds: [],
+    prizeIds: [],
   }
 
-  console.log("Caching laureates with prompt \"" + prompt + "\".");
-  const laureates = await Database.GetLaureates().find({}).toArray();
-  for (let i = 0; i < laureates.length; i++) {
-    if (promptIsCool(prompt, laureates[i])) {
-      laureateCache[prompt].foundIds.push(laureates[i]._id);
-    }
-  }
-  console.log("cached all laureates for prompt \"" + prompt + "\".")
-  laureateCache[prompt].isRunning = false;
-  clearCache(laureateCache[prompt], 3600000);
-}
-
-async function cacheNobelPrizePrompt(prompt) {
-  console.log("Caching nobel prizes with prompt \"" + prompt + "\".");
-  if (prizeCache[prompt]) {
-    prizeCache[prompt].isRunning = true;
-  } else {
-    prizeCache[prompt] = {
-      isRunning: true,
-      foundIds: [],
-    }
-  }
-
-  const prizes = await Database.GetPrizes().find({}).toArray();
-  const laureates = Database.GetLaureates();
-
-  for (let p = 0; p < prizes.length; p++) {
-    if (prizes[p].laureates) {
-      for (let l = 0; l < prizes[p].laureates.length; l++) {
-
-        let test = await laureates.findOne({ _id: prizes[p].laureates[l] });
-
-        if (promptIsCool(prompt, test)) {
-          console.log("FOUND ONE WHOOO!")
-          prizeCache[prompt].foundIds.push(prizes[p].laureates[l]);
-        }
+  Database.models.Laureate.find({}).then((laureates) => {
+    console.log(`caching prompt "${prompt}"`);
+    laureates.forEach((laureate) => {
+      if (promptIsCool(prompt, laureate)) {
+        promptCache[prompt].laureateIds.push(laureate._id);
+        laureate.nobelPrizes.forEach((prize) => {
+          if (!promptCache[prompt].prizeIds.includes(prize)) {
+            promptCache[prompt].prizeIds.push(prize);
+          }
+        })
       }
-    }
-  }
-  console.log("cached all nobel prizes for prompt \"" + prompt + "\".")
-  prizeCache[prompt].isRunning = false;
-  clearCache(prizeCache[prompt], 3600000);
-
-}
-
-function clearCache(cache, ms) {
-  setInterval(() => {
-    cache = undefined;
-  }, ms);
+    });
+    console.log(`done caching prompt "${prompt}"`);
+    promptCache[prompt].isRunning = false;
+    clearCache(promptCache[prompt], 3600000);
+  }).then(undefined, (err) => { console.error(err) });
 }
 
 // this should be renamed holy shit
+const Laureate = Database.models.Laureate;
+/**
+ * 
+ * @param {string} prompt 
+ * @param {Document} laureate 
+ * @returns 
+ */
 function promptIsCool(prompt, laureate) {
   const coolPrompt = prompt.toLowerCase();
-  return (
-    ((laureate.fileName !== null || laureate.fileName !== undefined) && laureate.fileName.toLowerCase().includes(coolPrompt)) ||
-    (laureate.orgName && laureate.orgName.toLowerCase().includes(coolPrompt)) ||
-    (laureate.knownName && laureate.knownName.toLowerCase().includes(coolPrompt))
-  );
 
+  const filename = (laureate.fileName && laureate.fileName.toLowerCase().includes(coolPrompt));
+  const orgName = (laureate.orgName && laureate.orgName.toLowerCase().includes(coolPrompt))
+  const knownName = (laureate.knownName && laureate.knownName.toLowerCase().includes(coolPrompt))
+  const fullName = (laureate.fullName && laureate.fullName.toLowerCase().includes(coolPrompt));
+  return filename || orgName || knownName || fullName;
+
+}
+function clearCache(cache, time) {
+  setInterval(() => {
+    cache = undefined;
+  }, time);
 }
 
 export default router;

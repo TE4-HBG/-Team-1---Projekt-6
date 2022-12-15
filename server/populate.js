@@ -1,5 +1,5 @@
 import Database from "./Database.js";
-import replaceOne from "./mongodb.collection.replaceOne.js";
+import replaceOne from "./replaceOne.js";
 import { getLaureateCount, getLaureates, getNobelPrizeCount, getNobelPrizes } from "./RequestAPI.js";
 import { LaureateID, TranslateLaureate, TranslateNobelPrize } from "./translate.js";
 
@@ -33,17 +33,14 @@ export default async function PopulateCollection(collection, apiCount, apiGet, t
 export async function PopulatePrizesAndLaurates() {
     const prizes = await getNobelPrizes(0, await getNobelPrizeCount());
     const laureates = await getLaureates(0, await getLaureateCount());
-    const laureateCollection = Database.GetLaureates();
     laureates.forEach(async (laureate, index) => {
-        await replaceOne(laureateCollection, index, laureate, TranslateLaureate, LaureateID);
+        replaceOne(Database.models.Laureate, index, laureate, TranslateLaureate, LaureateID);
     });
-    const prizeCollection = Database.GetPrizes();
     prizes.forEach(async (prize, index) => {
-
-        await replaceOne(prizeCollection, index, prize, TranslateNobelPrize);
+        replaceOne(Database.models.Prize, index, prize, TranslateNobelPrize);
         if (prize.laureates) {
             await prize.laureates.forEach(async (laureate) => {
-                await laureateCollection.updateOne({ _id: Number(laureate.id) }, { $push: { nobelPrizes: index } });
+                await Database.models.Laureate.updateOne({ _id: Number(laureate.id) }, { $push: { nobelPrizes: index } });
             })
         }
     });

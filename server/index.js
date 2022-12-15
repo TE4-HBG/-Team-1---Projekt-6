@@ -1,4 +1,3 @@
-
 import express, { json } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -7,9 +6,9 @@ import Database from "./Database.js";
 import { PopulatePrizesAndLaurates } from "./populate.js";
 import setIntervalImmediately from "./setIntervalImmediately.js";
 
-// configures the environment path, so we can access variables  
-dotenv.config({ path: "./config.env" });
 
+// configures the environment path, so we can access environment variables  
+dotenv.config({ path: "./config.env" });
 
 const port = process.env.PORT || 5000;
 
@@ -33,8 +32,9 @@ app.listen(port, async () => {
   
   console.log(`Server is running on port: ${port}`);
 
+  Database.Connect()
   // connect to database when server starts
-  await Database.Connect();
+  await Database.connection;
 
   // every hour, Populate the database from the nobel prize api
   await setIntervalImmediately(async () => {

@@ -43,6 +43,16 @@ router.route("/login/").get(async function (req, res) {
   res.json(isValid);
 
 })
+router.route("/signup/").get(async function (req, res) {
+  console.log("test");
+  const Username = req.header("Username");
+  const Password = req.header("Password");
+  console.log(Username, Password);
+  //await Database.CreateUser(Username, Password);
+  
+  res.json(await Database.CreateUser(Username,Password));
+
+})
 
 
 // this route retrieves a random prize from the database

@@ -1,51 +1,44 @@
-import "./nobelprize.js";
+import "./NobelPrize.js";
+import Database from "./database.js";
+const Laureate = Database.models.Laureate;
+const NobelPrize = Database.models.Prize;
+
 
 /**
  * 
  * @param {APINobelPrize} prize 
  * @param {number} index
- * @returns {*}
+ * @returns {NobelPrize}
  */
 export function TranslateNobelPrize(prize) {
-    return {
+    return new NobelPrize({
         awardYear: prize.awardYear,
-        category_en: prize.category.en,
-        category_no: prize.category.no,
-        category_se: prize.category.se,
-        categoryFull_en: prize.categoryFullName.en,
-        categoryFull_no: prize.categoryFullName.no,
-        categoryFull_se: prize.categoryFullName.se,
-        laureates: prize.laureates === undefined ? undefined : prize.laureates.map((laureate) => {
-            return Number(laureate.id);
-        }),
+        category: prize.category.en,
+        categoryFull: prize.categoryFullName.en,
+        laureates: prize.laureates && prize.laureates.map((laureate) => Number(laureate.id)),
         prizeAmount: prize.prizeAmount,
         prizeAmountAdjusted: prize.prizeAmountAdjusted,
-    };
+    });
 }
 /**
  * 
  * @param {APILaureate} laureate 
  * @param {number} index
- * @returns {*}
+ * @returns {Laureate}
  */
-export function TranslateLaureate(laureate, index) {
-    const isOrganisation = laureate.orgName !== undefined;
-    let object = {
+export function TranslateLaureate(laureate) {
+    return new Laureate({
+        _id: laureate.id,
         fileName: laureate.fileName,
         nobelPrizes: [],
-    }
-    if (laureate.wikipedia) {
-        object.wikipedia = laureate.wikipedia.english;
-    }
-    if (laureate.wikiData) {
-        object.wikiData = laureate.wikiData.url;
-    }
-    if (isOrganisation) {
-        object.orgName = laureate.orgName.en;
-    } else {
-        object.knownName = laureate.knownName.en;
-    }
-    return object;
+        wikiData: laureate.wikiData && laureate.wikidata.url,
+        wikiDataID: laureate.wikiData && laureate.wikidata.id,
+        wikipedia: laureate.wikipedia.english,
+        wikipediaID: laureate.wikipedia.slug,
+        orgName: laureate.orgName && laureate.orgName.en,
+        knownName: laureate.knownName && laureate.knownName.en,
+        fullName: laureate.fullName && laureate.fullName.en,
+    });
 }
 
 /**

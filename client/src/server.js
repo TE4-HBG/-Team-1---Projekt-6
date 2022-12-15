@@ -1,6 +1,7 @@
 import globals from "./globals"; // Import global variables from another file
-const ip = "http://localhost:1337"; // Define server address
-//const ip = "http://213.188.154.113:1337"; // Alternate server address
+const ip = "http://213.188.154.113:1337"; // Server adress
+//const ip = "http://localhost:1337"; // Local server adress, use for local testing
+
 
 // Function for sending HTTP requests to the server
 const request = (method, url, headers, callback) => {
@@ -9,8 +10,9 @@ const request = (method, url, headers, callback) => {
   
   // Register event listeners for successful and failed requests
   req.addEventListener("load", ({ target }) => {
+    req.responseType = 'json';
     // Parse response to JSON and pass it to the callback function
-    callback(null, JSON.parse(target.responseText));
+    callback(target.response);
   });
 
   // Open the request and set the request method and headers
@@ -46,8 +48,8 @@ const Server = {
       "GET",
       `${ip}/login`,
       {
-        Username: username,
-        Password: password,
+        username: username,
+        password: password,
       },
       callback
     ),

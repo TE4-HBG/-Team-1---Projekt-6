@@ -130,7 +130,7 @@ router.route("/prompt/laureate/:prompt/:i").get(async function (req, res) {
 //This route displays favorite nobel prizes and laureate :D
 router.route("/get/favorites/:id").get(async function (req, res) {
   const id = req.params.userId
-  if(id !== "null") {
+  if(ObjectID.isValid(id)) {
     id = ObjectID(id);
   }
   const result = await database.models.User.findOne({_id: id}).exec();
@@ -140,10 +140,11 @@ router.route("/get/favorites/:id").get(async function (req, res) {
 //This route displays favorite nobel prizes and laureates :D
 router.route("/addfavorite/laureate/:userId/:laureateId").get(async function (req, res) {
   const id = req.params.userId
-  if(id !== "null") {
+  if(ObjectID.isValid(id)) {
     id = ObjectID(id);
+    await database.models.User.updateOne({_id: id}, {$push: {favoriteLaureates: req.params.laureateId}}).exec()
   }
-  await database.models.User.updateOne({_id: id}, {$push: {favoriteLaureates: req.params.laureateId}}).exec()
+  
   res.json("yomama")
 })
   

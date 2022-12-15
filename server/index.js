@@ -2,16 +2,14 @@ import express, { json } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import router from "./router.js"
-import Database from "./Database.js";
+import Database from "./database.js";
 import { PopulatePrizesAndLaurates } from "./populate.js";
 import setIntervalImmediately from "./setIntervalImmediately.js";
-
 
 // configures the environment path, so we can access environment variables  
 dotenv.config({ path: "./config.env" });
 
 const port = process.env.PORT || 5000;
-
 // creates an express app
 const app = express();
 

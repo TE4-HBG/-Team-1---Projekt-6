@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Server from "../Server"
+import server from "../server"
 
 
 export default function LoginInfo(props) {
@@ -35,7 +35,7 @@ export default function LoginInfo(props) {
                 </input>
             </div>
             <div className="Sign_in">
-                <button onClick={function () { Server.login(UserNamePromt, PasswordPromt, setIsValid) }}>
+                <button onClick={function () { server.login(UserNamePromt, PasswordPromt, setIsValid) }}>
                     <h6>
                         Sign in!
                     </h6>

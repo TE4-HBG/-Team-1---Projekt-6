@@ -1,5 +1,7 @@
+import { ObjectID } from "bson";
 import { Router } from "express";
-import Database from "./Database.js";
+import { ObjectId } from "mongodb";
+import Database from "./database.js";
 import delay from "./delay.js";
 import RandomInt from "./random.js";
 
@@ -127,6 +129,21 @@ router.route("/prompt/laureate/:prompt/:i").get(async function (req, res) {
 
 });
 
+//This route displays favorite nobel prizes and laureate :D
+router.route("/get/favorites/:id").get(async function (req, res) {
+  const id = ObjectID(req.params.id); 
+  const result = await Database.GetUsers().findOne({_id: id}, )
+  res.json({favoritePrizes: result.favoritePrizes, favoriteLaureates: result.favoriteLaureates})
+})
+
+//This route displays favorite nobel prizes and laureates :D
+router.route("/addfavorite/laureate/:userId/:laureateId").get(async function (req, res) {
+  console.log(req.params.userId)
+  const userCollection = Database.GetUsers();
+  await userCollection.updateOne({_id: Number(req.params.userId)}, {$push: {favoriteLaureates: req.params.laureateId}})
+  res.json("yomama")
+})
+  
 // this route is a fallback 
 router.route("/*").get(async function (req, res) {
   res.json({ error: "Hello, are you lost? :)" })

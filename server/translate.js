@@ -3,6 +3,7 @@ import Database from "./Database.js";
 const Laureate = Database.models.Laureate;
 const NobelPrize = Database.models.Prize;
 
+
 /**
  * 
  * @param {APINobelPrize} prize 

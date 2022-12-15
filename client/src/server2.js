@@ -9,9 +9,8 @@ const request = (method, url, headers, callback) => {
   
   // Register event listeners for successful and failed requests
   req.addEventListener("load", ({ target }) => {
-    req.responseType = 'json';
     // Parse response to JSON and pass it to the callback function
-    callback(target.response);
+    callback(null, JSON.parse(target.responseText));
   });
 
   // Open the request and set the request method and headers
@@ -47,8 +46,8 @@ const Server = {
       "GET",
       `${ip}/login`,
       {
-        username: username,
-        password: password,
+        Username: username,
+        Password: password,
       },
       callback
     ),

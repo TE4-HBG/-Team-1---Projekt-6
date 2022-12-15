@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Server from "../Server";
+import server from "../server";
 import Laureate from "./Laureate";
-
 
 export const Timer = () => {
     const [data, setData] = useState(null);
 
 
     function SetData() {
-        Server.random("laureate", 1, (arr) => { setData(arr[0]) });
+        server.random("laureate", 1, (arr) => { setData(arr[0]) });
     }
 
     useEffect(() => {
@@ -16,7 +15,6 @@ export const Timer = () => {
         const intervalID = setInterval(SetData, 86_400_000);
         return function () { clearInterval(intervalID); }
     }, []);
-
 
     return (
         <div style={{float: "right"}} className="Timer">

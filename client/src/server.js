@@ -1,6 +1,6 @@
 import globals from "./globals"; // Import global variables from another file
-const ip = "http://213.188.154.113:1337"; // Server adress
-//const ip = "http://localhost:1337"; // Local server adress, use for local testing
+//const ip = "http://213.188.154.113:1337"; // Server adress
+const ip = "http://localhost:1337"; // Local server adress, use for local testing
 
 
 // Function for sending HTTP requests to the server

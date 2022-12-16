@@ -4,6 +4,7 @@ import AccordionItem from "react-bootstrap/esm/AccordionItem";
 import "./Laureate.css"
 import server from "../server.js"
 import globals from "../globals";
+import Wikipedia from "../wikipedia";
 
 //For the Button, have onClick be a function imported from Server.js that makes a request
 //To the server to update the mongodb database with the laureate.
@@ -15,17 +16,26 @@ export default function Laureate(props) {
 
     useEffect(() => {
         if(props.data) {
-            
+            console.log("I'M IN")
+            Wikipedia.GetImage(props.data.wikipediaID, setImageLink);
         }
-    }, [imageLink, props.data])
+    }, [props.data])
     return (<Card className="laureate">
         {props.data ?
 
             <>
-                <Card.Img variant="top" src={imageLink ? imageLink : "/loading.png"}></Card.Img>
+                <div style={{ 
+                    margin: "fit", 
+                    height: "9rem", 
+                    backgroundImage: `url("${imageLink ? imageLink : "/missing.png"}")`, 
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: "cover"
+                    
+                }} />
                 <Card.Body>
-                    <Card.Title color="dark">{props.data.fullName}</Card.Title>
-                <Button className="button" onClick={server.addFavorite("laureate", props.data._id, setIsValid)}> 
+                    <Card.Title color="dark">{props.data.fullName ? props.data.fullName : (props.data.knownName ? props.data.knownName : (props.data.orgName ? props.data.orgName : props.data.fileName)) }</Card.Title>
+                <Button className="button" onClick={() => server.addFavorite("laureate", props.data._id, setIsValid)}> 
                  Add to Favorites
                 </Button>
 

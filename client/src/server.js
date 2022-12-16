@@ -2,11 +2,12 @@ import globals from "./globals"; // Import global variables from another file
 //const ip = "http://213.188.154.113:1337"; // Server adress
 const ip = "http://localhost:1337"; // Local server adress, use for local testing
 
-
+/*
 // Function for sending HTTP requests to the server
-const request = (method, url, headers, callback) => {
+export const request = (method, url, headers, callback) => {
     // Create a new XMLHttpRequest object
-    const req = new XMLHttpRequest();
+    const
+     req = new XMLHttpRequest();
     req.responseType = 'json';
     // Register event listeners for successful and failed requests
     req.addEventListener("load", () => {
@@ -26,7 +27,25 @@ const request = (method, url, headers, callback) => {
     // Send the request
     req.send();
 };
+*/
+export const request = async (method, url, headers, callback) => {
+    try {
+        let header = headers ? headers : {};
+        const res = await fetch(url, {
+            method,
+            mode: "cors",
+            headers: {
+                'Content-Type': 'application/json',
+                ...header
+            },
+        });
 
+        await (res.json()).then(callback, (err) => console.error("UH oh! " + err));
+
+    } catch (error) {
+        console.error(error);
+    }
+};
 // Object for sending different types of requests to the server
 const Server = {
     // Send a GET request for a prompt

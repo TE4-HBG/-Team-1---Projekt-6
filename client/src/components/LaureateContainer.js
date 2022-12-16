@@ -1,39 +1,22 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Laureate from "./Laureate";
+import PromptFetcher from "../promptFetcher";
 
-const searchResult = {prompt: "", data: [], isRunning: false, shouldRun: false};
-function FetchPromptData(prompt) {
-    let shit = null
-    do {
-
-    } while(shit !== null);
-}
 
 export default function LaureateContainer(props) {
-
-    const [activePrompt, setActivePrompt] = useState("");
-    
-    
+    const [dataArray, setDataArray] = useState([]);
+    const [promptFetcher] = useState(new PromptFetcher(setDataArray));
     useEffect(() => {
         if (props.prompt.length !== 0) {
             console.log("got a new prompt");
-            setActivePrompt(props.prompt);
-            
+            promptFetcher.start(props.prompt);
         }
-    }, [props.prompt])
+    }, [promptFetcher, props.prompt])
 
 
-    
-    useEffect(() => {
-
-
-        //DisableOldPromptFetches(activePrompt);
-    }, [activePrompt])
-    
-    
     return <div /*ref={ref}*/ style={{ display: "flex", flexWrap: "wrap", alignContent: "flex-start", justifyContent: "space-evenly", alignItems: "flex-start" }}>
         {
-            searchResult.data.map((data, i) => {
+            dataArray.map((data, i) => {
                 return <Laureate data={data} key={`laurate-${props.prompt}-${i}`} />;
             })
         }

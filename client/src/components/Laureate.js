@@ -10,15 +10,22 @@ import globals from "../globals";
 export default function Laureate(props) {
 
     const [IsValid, setIsValid] = useState(false)
+    const [imageLink, setImageLink] = useState(null)
 
+
+    useEffect(() => {
+        if(props.data) {
+            
+        }
+    }, [imageLink, props.data])
     return (<Card className="laureate">
         {props.data ?
 
             <>
-                <Card.Img variant="top" src={"https://placekitten.com/270/180"}></Card.Img>
+                <Card.Img variant="top" src={imageLink ? imageLink : "/loading.png"}></Card.Img>
                 <Card.Body>
-                    <Card.Title color="dark">{props.data.knownName}</Card.Title>
-                <Button className="button" onClick={server.addFavorite("laureate", globals.userId, setIsValid)}> 
+                    <Card.Title color="dark">{props.data.fullName}</Card.Title>
+                <Button className="button" onClick={server.addFavorite("laureate", props.data._id, setIsValid)}> 
                  Add to Favorites
                 </Button>
 

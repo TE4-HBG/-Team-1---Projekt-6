@@ -6,7 +6,7 @@ import NavbarDarkExample from './components/NavbarDarkExample';
 
 import Popup from './components/Popup';
 import LoginInfo from "./components/LoginInfo";
-import LaureateContainer from "./components/LaureateDisplay";
+import LaureateContainer from "./components/LaureateContainer";
 
 function App() {
   const [searchPrompt, setSearchPrompt] = useState("")

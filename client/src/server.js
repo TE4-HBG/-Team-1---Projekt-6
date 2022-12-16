@@ -7,12 +7,12 @@ const ip = "http://213.188.154.113:1337"; // Server adress
 const request = (method, url, headers, callback) => {
   // Create a new XMLHttpRequest object
   const req = new XMLHttpRequest();
-  
+  req.responseType = 'json';
   // Register event listeners for successful and failed requests
-  req.addEventListener("load", ({ target }) => {
-    req.responseType = 'json';
+  req.addEventListener("load", () => {
+    
     // Parse response to JSON and pass it to the callback function
-    callback(target.response);
+    callback(req.response);
   });
 
   // Open the request and set the request method and headers

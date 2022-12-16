@@ -1,5 +1,5 @@
 import React, { isValidElement, useEffect, useState } from "react";
-import Server from "../server"
+import server from "../server"
 
 
 export default function SignUpInfo(props) {
@@ -33,7 +33,7 @@ export default function SignUpInfo(props) {
                 </input>
             </div>
             <div className="Sign_in">
-                <button onClick={function () {Server.Signup(UserNamePromt, PasswordPromt, setIsValid) }}>
+                <button onClick={function () {server.Signup(UserNamePromt, PasswordPromt, setIsValid) }}>
                     <h6>
                         Sign up!
                     </h6>

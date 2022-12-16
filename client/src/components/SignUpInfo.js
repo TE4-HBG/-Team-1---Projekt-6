@@ -1,4 +1,5 @@
 import React, { isValidElement, useEffect, useState } from "react";
+import globals from "../globals";
 import server from "../server"
 
 
@@ -6,11 +7,6 @@ export default function SignUpInfo(props) {
 
     const [UserNamePromt, setUserNamePromt] = useState("");
     const [PasswordPromt, setPasswordPromt] = useState("");
-    const [IsValid, setIsValid] = useState(null)
-
-    useEffect(function () {
-        console.log(IsValid);
-    }, [IsValid])
     return (
         <>
             <div className="LoginForm">
@@ -32,8 +28,8 @@ export default function SignUpInfo(props) {
                 <input className="Password" type="text" value={PasswordPromt} onChange={function (event) { setPasswordPromt(event.target.value); console.log(event.target.value) }}>
                 </input>
             </div>
-            <div className="Sign_in">
-                <button onClick={function () {server.Signup(UserNamePromt, PasswordPromt, setIsValid) }}>
+            <div className="Sign_up">
+                <button onClick={function () {server.signup(UserNamePromt, PasswordPromt, (data) => {globals.userId = data}) }}>
                     <h6>
                         Sign up!
                     </h6>

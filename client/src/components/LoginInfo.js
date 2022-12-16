@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import globals from "../globals";
 import server from "../server"
 
 
@@ -6,13 +7,7 @@ export default function LoginInfo(props) {
 
     const [UserNamePromt, setUserNamePromt] = useState("");
     const [PasswordPromt, setPasswordPromt] = useState("");
-    const [IsValid, setIsValid] = useState(false)
-
-    useEffect(function () {
-        if (IsValid) {
-            alert("logged in");
-        }
-    }, [IsValid])
+    
     return (
         <>
             <div className="LoginForm">
@@ -35,7 +30,7 @@ export default function LoginInfo(props) {
                 </input>
             </div>
             <div className="Sign_in">
-                <button onClick={function () { server.login(UserNamePromt, PasswordPromt, setIsValid) }}>
+                <button onClick={function () { server.login(UserNamePromt, PasswordPromt, (data) => {globals.userId = data}) }}>
                     <h6>
                         Sign in!
                     </h6>

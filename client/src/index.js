@@ -4,6 +4,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import globals from './globals';
+
+setInterval(() => {
+    console.log(globals.userId);
+}, 1000);
 
 const root = ReactDOM.createRoot(document.body);
 root.render(

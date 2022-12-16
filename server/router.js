@@ -138,7 +138,7 @@ router.route("/get/favorites/:id").get(async function (req, res) {
 router.route("/addfavorite/laureate/:userId/:laureateId").get(async function (req, res) {
   if (mongoose.Types.ObjectId.isValid(req.params.userId)) {
     const id = mongoose.Types.ObjectId(req.params.userId);
-    await database.models.User.updateOne({ _id: id }, { $push: { favoriteLaureates: req.params.laureateId } }).exec()
+    await database.models.User.updateOne({ _id: id }, { $push: { favoriteLaureates: Number(req.params.laureateId) } }).exec()
     res.json(true);
   } else {
     res.json(false);

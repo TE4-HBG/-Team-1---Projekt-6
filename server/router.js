@@ -149,7 +149,7 @@ router.route("/addfavorite/laureate/:userId/:laureateId").get(async function (re
 })
 
 
-router.route("removefavorite(laureate/:userId/:laureateId").get(async function (req, res) {
+router.route("removefavorite/laureate/:userId/:laureateId").get(async function (req, res) {
   console.log(req.params.userId)
   const userCollection = Database.GetUsers();
   await userCollection.update({userId: req.params.userId}, {$pull: {favoriteLaureates: req.params.laureateId}})

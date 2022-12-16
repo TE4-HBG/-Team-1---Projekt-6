@@ -141,7 +141,13 @@ router.route("/addfavorite/laureate/:userId/:laureateId").get(async function (re
   await userCollection.updateOne({_id: Number(req.params.userId)}, {$push: {favoriteLaureates: req.params.laureateId}})
   res.json("yomama")
 })
-  
+
+
+router.route("removefavorite(laureate/:userId/:laureateId").get(async function (req, res) {
+  console.log(req.params.userId)
+  const userCollection = Database.GetUsers();
+  await userCollection.update({userId: req.params.userId}, {$pull: {favoriteLaureates: req.params.laureateId}})
+})
 // this route is a fallback 
 router.route("/*").get(async function (req, res) {
   res.json({ error: "Hello, are you lost? :)" })

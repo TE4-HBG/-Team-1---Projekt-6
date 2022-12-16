@@ -62,7 +62,16 @@ const Server = {
       null,
       callback
     ),
+
+  removeFavorite: (type, id, callback) =>
+    request(
+        "GET",
+        `${ip}/removefavorite/${type}/${globals.userId}/${id}`,
+        null,
+        callback
+    ),
 };
 
 // Export Server object as a module
 export default Server;
+

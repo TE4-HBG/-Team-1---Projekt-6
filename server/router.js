@@ -1,5 +1,6 @@
 import { ObjectID } from "bson";
 import { Router } from "express";
+import mongoose from "mongoose";
 import database from "./database.js";
 import delay from "./delay.js";
 
@@ -35,20 +36,14 @@ router.route("/login/").get(async function (req, res) {
 
   database.models.User.findOne(
     { username: username, password: password },
-    (err, res) => {
+    (err, result) => {
       if (err) {
         console.err(err);
       } else {
-        console.log(res);
+        res.json(result._id);
       }
     }
-  ).exec((err, res) => {
-    if (err) {
-      console.error(err)
-    } else {
-      res.json(res._id);
-    }
-  });
+  );
 })
 router.route("/signup/").get(async function (req, res) {
   console.log("test");
@@ -129,23 +124,27 @@ router.route("/prompt/laureate/:prompt/:i").get(async function (req, res) {
 
 //This route displays favorite nobel prizes and laureate :D
 router.route("/get/favorites/:id").get(async function (req, res) {
-  const id = req.params.userId
-  if(ObjectID.isValid(id)) {
-    id = ObjectID(id);
+  if (mongoose.Types.ObjectId.isValid(req.params.userId)) {
+    const id = mongoose.Types.ObjectId(req.params.userId);
+    const result = await database.models.User.findOne({ _id: id }).exec();
+    res.json({ favoritePrizes: result.favoritePrizes, favoriteLaureates: result.favoriteLaureates })
+  } else {
+    res.json(null);
   }
-  const result = await database.models.User.findOne({_id: id}).exec();
-  res.json({favoritePrizes: result.favoritePrizes, favoriteLaureates: result.favoriteLaureates})
+
 })
 
 //This route displays favorite nobel prizes and laureates :D
 router.route("/addfavorite/laureate/:userId/:laureateId").get(async function (req, res) {
-  const id = req.params.userId
-  if(ObjectID.isValid(id)) {
-    id = ObjectID(id);
-    await database.models.User.updateOne({_id: id}, {$push: {favoriteLaureates: req.params.laureateId}}).exec()
+  if (mongoose.Types.ObjectId.isValid(req.params.userId)) {
+    const id = mongoose.Types.ObjectId(req.params.userId);
+    await database.models.User.updateOne({ _id: id }, { $push: { favoriteLaureates: req.params.laureateId } }).exec()
+    res.json(true);
+  } else {
+    res.json(false);
   }
+
   
-  res.json("yomama")
 })
 
 
@@ -183,7 +182,7 @@ async function getNobelPrizePrompt(i, prompt) {
 // same as above, but for laureates
 async function getLaureatePrompt(i, prompt) {
   if (promptCache[prompt] === undefined) {
-    
+
     cachePrompt(prompt);
   }
 

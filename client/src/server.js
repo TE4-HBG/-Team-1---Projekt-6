@@ -50,6 +50,33 @@ const Server = {
       null,
       callback
     ),
+ getFavorites: (callback) => 
+    request(
+        "GET",
+        `${ip}/get/favorites/${globals.userId}`,
+        null,
+        callback
+
+    ),
+
+    getLaureate: (callback, id) =>
+    request(
+        "GET",
+        `${ip}/get/laureate/${id}`,
+        null,
+        callback
+    ),
+
+    router.route("/get/laureate/:id").get(async function (req, res) {
+        if (mongoose.Types.ObjectId.isValid(req.params.userId)) {
+          const id = mongoose.Types.ObjectId(req.params.userId);
+          const result = await database.models.Laureate.findOne({ _id: id }).exec();
+          res.json({ knownName: result.knownName })
+        } else {
+          res.json(null);
+        }
+      
+      })
 
   removeFavorite: (type, id, callback) =>
     request(

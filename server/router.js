@@ -134,6 +134,20 @@ router.route("/get/favorites/:id").get(async function (req, res) {
 
 })
 
+router.route("/get/laureate/:id").get(async function (req, res) {
+
+  try {
+    const result = await database.models.Laureate.findOne({ _id: id }).exec();
+    res.json({ knownName: result.knownName })
+  }
+  catch {
+    console.log("bad id")
+  }
+   
+
+
+})
+
 //This route displays favorite nobel prizes and laureates :D
 router.route("/addfavorite/laureate/:userId/:laureateId").get(async function (req, res) {
   if (mongoose.Types.ObjectId.isValid(req.params.userId)) {

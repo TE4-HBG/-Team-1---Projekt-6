@@ -7,7 +7,7 @@ import NavbarDarkExample from './components/NavbarDarkExample';
 import Popup from './components/Popup';
 import LoginInfo from "./components/LoginInfo";
 import LaureateContainer from "./components/LaureateContainer";
-
+import FavoritePrizeList from "./components/FavoritePrizeList";
 function App() {
   const [searchPrompt, setSearchPrompt] = useState("")
   const [popupState, setPopupState] = useState(false);
@@ -19,7 +19,7 @@ function App() {
         Login!
       </button>} />
       <LaureateContainer prompt={searchPrompt}></LaureateContainer>
-
+      <FavoritePrizeList/>
 
 
       <Popup state={popupState} setState={setPopupState} >

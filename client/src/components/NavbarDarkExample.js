@@ -12,6 +12,7 @@ export default function NavbarDarkExample(props) {
 
         <Navbar.Collapse id="navbar-dark-example">
           <Nav>
+            {/*
             <NavDropdown
               id="nav-dropdown-dark-example"
               title="FILTER"
@@ -25,11 +26,13 @@ export default function NavbarDarkExample(props) {
                 TEAM 1 PRODUCTION
               </NavDropdown.Item>
             </NavDropdown>
+            */}
             <NavDropdown
               title="Laureate of the day"
             >
               <Timer />
             </NavDropdown>
+            
             {props.popupButton}
           </Nav>
         </Navbar.Collapse>
